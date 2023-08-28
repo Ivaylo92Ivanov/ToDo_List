@@ -1,0 +1,48 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    /* background-color: #f1f5f9; */
+    background-image: url("./main-background-min.png");
+    background-size: cover;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.header {
+    background-color: rgb(245, 158, 11, 0.5);
+    padding: 1rem 3rem;
+    display: flex;
+    align-items: center;
+    box-shadow: 2px 2px 12px;
+}
+
+.main {
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+    align-content: stretch;
+    flex: 1;
+}
+
+.nav,
+.display {
+    padding: 2rem;
+    margin: 2rem;
+    background-color: rgb(0, 0, 0, 0.5);
+    box-shadow: 2px 2px 12px;
+    border-radius: 12px;}
+
+.nav {
+    flex: 1;    
+}
+
+.display {
+    flex: 3;
+}

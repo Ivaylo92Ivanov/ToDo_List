@@ -1,0 +1,29 @@
+{
+  "name": "todo_list",
+  "version": "1.0.0",
+  "description": "A study project, from the Odin Project curriculum",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ivaylo92Ivanov/ToDo_List.git"
+  },
+  "author": "Ivaylo I.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ivaylo92Ivanov/ToDo_List/issues"
+  },
+  "homepage": "https://github.com/Ivaylo92Ivanov/ToDo_List#readme",
+  "devDependencies": {
+    "css-loader": "^6.8.1",
+    "html-webpack-plugin": "^5.5.3",
+    "style-loader": "^3.3.3",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "save-dev": "^0.0.1-security"
+  }
+}
