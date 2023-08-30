@@ -1,6 +1,6 @@
 import "./styles.css";
-import {getNewProjectFormData, createNewProject} from "./to-do.js";
-import { clearDisplay, popFormUp } from "./dom-manipulation";
+import { getNewProjectFormData, createNewProject } from "./to-do.js";
+import { renderProjects, clearDisplay, popFormUp } from "./dom-manipulation";
 
 const body = document.querySelector("body");
 
@@ -15,17 +15,24 @@ main.className = "main";
 const nav = document.createElement("div"); 
 nav.className = "nav";
 
-const homeDiv = document.createElement("div");
-homeDiv.className = "home-div";
-homeDiv.innerHTML = "<h2>Home</h2>";
 
-const projectsDiv = document.createElement("div");
-projectsDiv.className = "projects-div";
-projectsDiv.innerHTML = "<h2>Projects:</h2><br>\
-                        <button class='new-project-button'>New Project +</button><br>";
+const homeHeader = document.createElement("h2");
+homeHeader.textContent = "Home";
 
-nav.appendChild(homeDiv);
-nav.appendChild(projectsDiv);
+const projectsHeader = document.createElement("h2");
+projectsHeader.textContent = "Projects:";
+
+const newProjectButton = document.createElement("button");
+newProjectButton.className = "new-project-button";
+newProjectButton.textContent = "New Project +";
+
+const protectsListDiv = document.createElement("div");
+protectsListDiv.className = "projects-div";
+
+nav.appendChild(homeHeader);
+nav.appendChild(projectsHeader);
+nav.appendChild(newProjectButton);
+nav.appendChild(protectsListDiv);
 
 const display = document.createElement("div");
 display.className = "display";
@@ -45,13 +52,14 @@ body.appendChild(footer);
 
 
 let projectsList = []
-const newProjectButton = document.querySelector(".new-project-button");
 newProjectButton.addEventListener("click", () => {
     popFormUp();
     const newProjectFormSubmitButton = document.querySelector(".submit-button");
     newProjectFormSubmitButton.addEventListener("click", e => {
         e.preventDefault();
-        projectsList.push(createNewProject(getNewProjectFormData()));
+        let currentProject = createNewProject(getNewProjectFormData());
+        projectsList.push(currentProject);
+        renderProjects(projectsList);
         console.log(projectsList);
         clearDisplay();
     });

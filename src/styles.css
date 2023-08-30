@@ -77,13 +77,13 @@ button {
 
 .new-project-form li {
     list-style: none;
-    display: flex;    
+    display: flex;
+    padding: 0.1rem 0;    
 }
 
 input {
     flex: 1;
 }
-
 
 textarea {
     box-sizing: border-box;
@@ -91,4 +91,15 @@ textarea {
 }
 select {
     flex: 1;
+}
+
+.projects-div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.project-instance {
+    flex: 1;
+    background-color: lightyellow;
 }

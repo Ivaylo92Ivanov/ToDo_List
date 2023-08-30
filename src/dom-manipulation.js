@@ -3,7 +3,7 @@ export function clearDisplay() {
     display.innerHTML = "";
 }
 
-export function popFormUp () {
+export function popFormUp() {
     const display = document.querySelector('.display');
     display.innerHTML ='<form action="" class="new-project-form">\
         <h1>Create New Project</h1>\
@@ -23,7 +23,20 @@ export function popFormUp () {
                                 <li><label for="description">Description:</label>\</li>\
                                 <li><textarea name="description" id="description" cols="" rows="20"></textarea></li>\
                                 <li><button type="submit" class="submit-button">Create Project</button></li>\
-                        </form>'
+                        </form>';
     };
 
+export function renderProjects(projectsList) {
+    const projectsDiv = document.querySelector(".projects-div");
+    projectsDiv.innerHTML = "";
+
+    projectsList.forEach(currentProject => {
+        let projectInstance = document.createElement("button");
+        projectInstance.className = "project-instance";
+        if (!currentProject.title) currentProject.title="Default Project";
+        projectInstance.textContent = currentProject.title;
+        projectsDiv.appendChild(projectInstance);
+    });
+    
+}
 
