@@ -54,19 +54,23 @@ body.appendChild(footer);
 let projectsList = []
 
 newProjectButton.addEventListener("click", () => {
-    displayNewProjectForm();
+    if (newProjectButton.classList.contains("clicked")) {
+        // do nothing
+    } else {
+        displayNewProjectForm();
+        newProjectButton.classList.add("clicked");
 
-
-    //separate following logic into separate function, 
-    // so it doesnt crash when there is no form
-    newProjectButton.classList.add("clicked");
-    const newProjectFormSubmitButton = document.querySelector(".submit-button");
-    newProjectFormSubmitButton.addEventListener("click", e => {
-        e.preventDefault();
-        let currentProject = createNewProject(getNewProjectFormData());
-        projectsList.push(currentProject);
-        showProjectsInNav(projectsList);
-        console.log(projectsList);
-        clearDisplay();
-    });
+        //separate following logic into separate function, 
+        // so it doesnt crash when there is no form looking for submit button
+        
+        const newProjectFormSubmitButton = document.querySelector(".submit-button");
+        newProjectFormSubmitButton.addEventListener("click", e => {
+            e.preventDefault();
+            let currentProject = createNewProject(getNewProjectFormData());
+            projectsList.push(currentProject);
+            showProjectsInNav(projectsList);
+            clearDisplay();
+            newProjectButton.classList.remove("clicked")
+        });
+    }
 });
