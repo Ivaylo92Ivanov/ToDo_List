@@ -59,10 +59,6 @@ newProjectButton.addEventListener("click", () => {
     } else {
         displayNewProjectForm();
         newProjectButton.classList.add("clicked");
-
-        //separate following logic into separate function, 
-        // so it doesnt crash when there is no form looking for submit button
-        
         const newProjectFormSubmitButton = document.querySelector(".submit-button");
         newProjectFormSubmitButton.addEventListener("click", e => {
             e.preventDefault();

@@ -81,6 +81,16 @@ button {
     padding: 0.1rem 0;    
 }
 
+.new-project-form li > button {
+    /* flex: 1; */
+}
+
+.form-buttons-wrapper {
+    display: flex;
+    justify-content: space-between;
+    /* gap: 5rem; */
+}
+
 input {
     flex: 1;
 }
@@ -104,6 +114,13 @@ select {
     background-color: lightyellow;
 }
 
-.clicked {
+
+.new-project-button:active {
+    background-color: lightgreen;
+}
+
+.new-project-button.clicked:active {
+    background-color: darkred;
+    color: white;
     /* text-decoration:line-through; */
 }
