@@ -64,7 +64,6 @@ body {
 }
 
 button {
-    background-color: #e5e7eb;
     padding: 0.3rem;
     border-radius: 8px;
 }
@@ -115,12 +114,34 @@ select {
 }
 
 
-.new-project-button:active {
+.new-project-button {
     background-color: lightgreen;
 }
 
+.new-project-button:active {
+    color: white;
+}
+
 .new-project-button.clicked:active {
-    background-color: darkred;
+    background-color: #ef4444;
     color: white;
     /* text-decoration:line-through; */
+}
+
+.submit-button {
+    background-color: lightgreen;
+    padding: 0.5rem;
+}
+
+.submit-button:active {
+    color: white;
+}
+
+.cancel-form-button {
+    background-color: #ef4444;
+    padding: 0.5rem;
+}
+
+.cancel-form-button:active {
+    color: white;
 }

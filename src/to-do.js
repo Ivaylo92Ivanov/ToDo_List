@@ -15,7 +15,6 @@ export const createNewProject = (formInput) => {
     let priority = formInput[1];
     let dueDate = formInput[2];
     let description = formInput[3];
-    console.log(title + " " + priority + " " + dueDate + " " + description)
     return {title, priority, dueDate, description}
 }
 

@@ -43,30 +43,40 @@ export function showProjectsInNav(projectsList) {
     projectsDiv.innerHTML = "";
 
     projectsList.forEach(currentProject => {
-        let projectNavTitle = document.createElement("button");
-        projectNavTitle.className = "project-nav-title";
+        let projectElement = document.createElement("button");
+        projectElement.className = "project-nav-title";
         if (!currentProject.title) currentProject.title="Default Project";
-        projectNavTitle.textContent = currentProject.title;
-        projectsDiv.appendChild(projectNavTitle);
+        projectElement.textContent = currentProject.title;
+        setCurrentProjectId(projectsList, currentProject);
+        setMatchingIdForProjectElement(projectElement, currentProject.id);
+        console.log(currentProject)
+        console.log(projectElement)
+        projectsDiv.appendChild(projectElement);
     });
 
-    addEventListenerToProjectTitles();
-}
+    addEventListenerToProjectElements(projectsList);
+};
 
+function setCurrentProjectId(projectsList, project) {
+    project.id = projectsList.indexOf(project);
+};
+
+function setMatchingIdForProjectElement(projectElement, id) {
+    projectElement.setAttribute("data-id", id);
+};
 
 // logic should link the projectObjects to the Dom Element
-function addEventListenerToProjectTitles() {
+function addEventListenerToProjectElements(projectsList) {
     let projectsTitlesList = document.querySelectorAll(".project-nav-title");
     projectsTitlesList.forEach(project => {
-        project.addEventListener("click", () => {renderProjectInDisplay(project)});
-    })
-}
+        let projectId = project.dataset.id;
+        project.addEventListener("click", () => {renderProjectInDisplay(projectsList[projectId])});
+    });
+};
 
 export function renderProjectInDisplay(project) {
-    // const displayDiv = document.querySelector(".display");
-    console.log(project.textContent)
+    const displayDiv = document.querySelector(".display");
+    console.log(project)
    
-
-
 }
 

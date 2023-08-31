@@ -51,7 +51,7 @@ footer.innerHTML = '<p>Background photo by <a href="https://unsplash.com/@andrew
 body.appendChild(footer);
 
 
-let projectsList = []
+let projectsList = [];
 
 newProjectButton.addEventListener("click", () => {
     if (newProjectButton.classList.contains("clicked")) {
@@ -68,5 +68,5 @@ newProjectButton.addEventListener("click", () => {
             clearDisplay();
             newProjectButton.classList.remove("clicked")
         });
-    }
+    };
 });
