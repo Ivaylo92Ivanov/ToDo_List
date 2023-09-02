@@ -151,15 +151,24 @@ select {
     padding: 0.5rem;
 }
 
-.cancel-form-button:active {
+.cancel-form-button:active,
+.delete-project-button.active {
     color: white;
 }
 
+.delete-project-button {
+    background-color: var(--main-color-4, red);
+}
+
 .edit-project-button {
+    background-color: var(--main-color-1, brown);
+
+}
+.edit-project-button,
+.delete-project-button {
     margin-top: 1rem;
     width: fit-content;
     align-self: flex-end;
-    background-color: var(--main-color-1, brown);
     align-items: center;
     display: flex;  
 }

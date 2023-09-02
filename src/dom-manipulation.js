@@ -1,10 +1,13 @@
-import EditIcon from "./icons/edit-button.svg"
-import { updateProject } from "./to-do";
+import EditIcon from "./icons/edit-button-icon.svg"
+import DeleteIcon from "./icons/delete-button-icon.svg"
+import { updateProject, deleteProject } from "./to-do";
 
 
 export function clearDisplay() {
     const display = document.querySelector('.display');
-    display.innerHTML = "";
+    display.innerHTML = '\
+    <h2>To Begin:<br><li> Create a new project</li>\
+    <li> Pick an existing project from the list</li></h2>'
 }
 
 export function makeNewProjectButtonActive() {
@@ -75,7 +78,6 @@ function setCurrentProjectId(projectsList, project) {
 
 function setMatchingIdForProjectElement(projectElement, id) {
     projectElement.setAttribute("data-id", id);
-    console.log(projectElement)
 };
 
 function addEventListenerToProjectElements(projectsList) {
@@ -95,7 +97,8 @@ function renderProjectInDisplay(project) {
         <li><strong>Priority:</strong> ${project.priority}</li>\
         <li><strong>Due Date:</strong> ${project.dueDate}</li>\
         <li><strong>Project Description:</strong> ${project.description}\</li>\
-        <button class="edit-project-button"><img src="${EditIcon}" height="17px"/>Edit Project</button>
+        <button class="edit-project-button"><img src="${EditIcon}" height="17px"/>Edit Project</button>\
+        <button class="delete-project-button"><img src="${DeleteIcon}" height="17px"/>Delete Project</button>
     </div>\
     <br>\
     <div class="to-do-display">\
@@ -108,6 +111,10 @@ function renderProjectInDisplay(project) {
     </div>`
     const editButton = document.querySelector(".edit-project-button");
     editButton.addEventListener("click", () =>  editProject(project));
+
+    const deleteButton = document.querySelector(".delete-project-button");
+    deleteButton.addEventListener("click", () => deleteProject());
+    console.log(deleteButton)
 }
 
 function editProject(project) {

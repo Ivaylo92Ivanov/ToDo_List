@@ -24,3 +24,7 @@ export function updateProject(project) {
     if (!project.title) project.title="Default Project";
     projectElement.textContent = project.title;
 }
+
+export function deleteProject(project) {
+    //
+}

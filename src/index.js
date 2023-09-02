@@ -43,10 +43,8 @@ main.appendChild(nav);
 const display = document.createElement("div");
 display.className = "display";
 display.innerHTML = '\
-<h2>Hey hey!<br><br>\
-To get started:<h2><br>\
-<li> Create a new project, or</li>\
-<li> Pick an existing project from the list!</li>'
+    <h2>To Begin:<br><li> Create a new project</li>\
+    <li> Pick an existing project from the list</li></h2>'
 
 main.appendChild(display);
 body.appendChild(main);
