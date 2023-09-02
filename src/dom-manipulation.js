@@ -1,13 +1,13 @@
 import EditIcon from "./icons/edit-button-icon.svg"
 import DeleteIcon from "./icons/delete-button-icon.svg"
-import { updateProject, deleteProject } from "./to-do";
+import { updateProject } from "./to-do";
 
 
 export function clearDisplay() {
     const display = document.querySelector('.display');
     display.innerHTML = '\
-    <h2>To Begin:<br><li> Create a new project</li>\
-    <li> Pick an existing project from the list</li></h2>'
+    <h2>To Begin:</h2><br><li> Create a new project</li>\
+    <li> Pick an existing project from the list</li>'
 }
 
 export function makeNewProjectButtonActive() {
@@ -41,8 +41,8 @@ export function displayNewProjectForm() {
         <li><label for="description">Description:</label>\</li>\
         <li><textarea name="description" id="description" cols="" rows="20"></textarea></li>\
         <li class="form-buttons-wrapper">\
-        <button type="submit" class="submit-button">Create Project</button>\
         <button type="button" class="cancel-form-button">Cancel</button>\
+        <button type="submit" class="submit-button">Create Project</button>\
         </li>\
     </form>';
     
@@ -55,40 +55,40 @@ function cancelProjectSubmission() {
     clearDisplay();
 };
 
-export function renderProjectsInNav(projectsList) {
+export function renderProjectsInNav(projectsLibrary) {
     const projectsDiv = document.querySelector(".projects-div");
     projectsDiv.innerHTML = "";
 
-    projectsList.forEach(currentProject => {
+    projectsLibrary.getLibrary().forEach(currentProject => {
         let projectElement = document.createElement("button");
         projectElement.className = "project-element-title";
         if (!currentProject.title) currentProject.title="Default Project";
         projectElement.textContent = currentProject.title;
-        setCurrentProjectId(projectsList, currentProject);
+        setCurrentProjectId(projectsLibrary, currentProject);
         setMatchingIdForProjectElement(projectElement, currentProject.id);
         projectsDiv.appendChild(projectElement);
     });
 
-    addEventListenerToProjectElements(projectsList);
+    addEventListenerToProjectElements(projectsLibrary);
 };
 
-function setCurrentProjectId(projectsList, project) {
-    project.id = projectsList.indexOf(project);
+function setCurrentProjectId(projectsLibrary, project) {
+    project.id = projectsLibrary.getLibrary().indexOf(project);
 };
 
 function setMatchingIdForProjectElement(projectElement, id) {
     projectElement.setAttribute("data-id", id);
 };
 
-function addEventListenerToProjectElements(projectsList) {
+function addEventListenerToProjectElements(projectsLibrary) {
     let projectsTitlesList = document.querySelectorAll(".project-element-title");
     projectsTitlesList.forEach(project => {
         let projectId = project.dataset.id;
-        project.addEventListener("click", () => {renderProjectInDisplay(projectsList[projectId])});
+        project.addEventListener("click", () => {renderProjectInDisplay(projectsLibrary,projectsLibrary.getLibrary()[projectId])});
     });
 };
 
-function renderProjectInDisplay(project) {
+function renderProjectInDisplay(projectsLibrary, project) {
     makeNewProjectButtonActive();
     const displayDiv = document.querySelector(".display");
     displayDiv.innerHTML = `\
@@ -113,15 +113,14 @@ function renderProjectInDisplay(project) {
     editButton.addEventListener("click", () =>  editProject(project));
 
     const deleteButton = document.querySelector(".delete-project-button");
-    deleteButton.addEventListener("click", () => deleteProject());
-    console.log(deleteButton)
+    deleteButton.addEventListener("click", () => deleteProject(projectsLibrary, project));
 }
 
 function editProject(project) {
     const display = document.querySelector('.display');
     display.innerHTML =`\
     <form action="" class="new-project-form">\
-        <h1>Edit Project "${project.title}"</h1>\
+        <h1>Edit Project "<em>${project.title}</em>"</h1>\
         <li><label for="title" >Project Title:</label></li>\
         <li><input type="text" id="title" value="${project.title}"></li>\
         <li><label for="priority">Pick Priority:</label></li>\
@@ -139,15 +138,14 @@ function editProject(project) {
         <li><label for="description">Description:</label>\</li>\
         <li><textarea name="description" id="description" cols="" rows="20">${project.description}</textarea></li>\
         <li class="form-buttons-wrapper">\
-        <button type="submit" class="save-edit-button">Save Changes</button>\
         <button type="button" class="cancel-form-button">Cancel</button>\
+        <button type="submit" class="save-edit-button">Save Changes</button>\
         </li>\
     </form>`;
     
     //have the option for priority set as selected
     const options = document.querySelectorAll("option");
     options.forEach(option => {if(option.value == project.priority) option.setAttribute('selected','selected')})
-
 
     const cancelButton = document.querySelector(".cancel-form-button");
     cancelButton.addEventListener("click", () => cancelProjectSubmission());
@@ -158,6 +156,15 @@ function editProject(project) {
         updateProject(project);
         clearDisplay();
     });
-    // priority doesnt display the current value, but resets
+    
 }
 
+ function deleteProject(projectsLibrary, project) {
+    if(confirm(`Are you sure you want to delete project ${project.title}?`)) {
+        projectsLibrary.removeProject(project.id);
+        renderProjectsInNav(projectsLibrary);
+        clearDisplay();
+    } else {
+     return
+    }
+}

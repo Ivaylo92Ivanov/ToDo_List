@@ -1,5 +1,5 @@
 import "./styles.css";
-import { getProjectFormData, createNewProject } from "./to-do.js";
+import { createProjectsLibrary,getProjectFormData, createNewProject } from "./to-do.js";
 import { 
     renderProjectsInNav, 
     clearDisplay, 
@@ -43,8 +43,8 @@ main.appendChild(nav);
 const display = document.createElement("div");
 display.className = "display";
 display.innerHTML = '\
-    <h2>To Begin:<br><li> Create a new project</li>\
-    <li> Pick an existing project from the list</li></h2>'
+<h2>To Begin:</h2><br><li> Create a new project</li>\
+<li> Pick an existing project from the list</li>'
 
 main.appendChild(display);
 body.appendChild(main);
@@ -59,7 +59,7 @@ footer.innerHTML = '\
 body.appendChild(footer);
 
  
-let projectsList = [];
+let projectsLibrary = createProjectsLibrary();
 
 newProjectButton.addEventListener("click", () => {
     if (newProjectButton.classList.contains("clicked")) {
@@ -71,8 +71,8 @@ newProjectButton.addEventListener("click", () => {
         newProjectFormSubmitButton.addEventListener("click", e => {
             e.preventDefault();
             let currentProject = createNewProject(getProjectFormData());
-            projectsList.push(currentProject);
-            renderProjectsInNav(projectsList);
+            projectsLibrary.addProject(currentProject);
+            renderProjectsInNav(projectsLibrary);
             clearDisplay();
             makeNewProjectButtonActive();
         });

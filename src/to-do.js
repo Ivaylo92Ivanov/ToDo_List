@@ -2,6 +2,16 @@
 // At a minimum they should have a title, description, dueDate and priority. 
 // You might also want to include notes or even a checklist.
 
+export const createProjectsLibrary = () => {
+    const library = [];
+
+    const addProject = (project) => library.push(project);
+    const removeProject = (projectIndex) => library.splice(projectIndex, 1);
+    const getLibrary = () => library;
+
+    return { addProject, removeProject, getLibrary}
+}
+
 export function getProjectFormData() {
     const title = document.getElementById("title").value;
     const priority = document.getElementById("priority").value;
@@ -25,6 +35,4 @@ export function updateProject(project) {
     projectElement.textContent = project.title;
 }
 
-export function deleteProject(project) {
-    //
-}
+
