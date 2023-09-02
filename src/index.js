@@ -1,6 +1,11 @@
 import "./styles.css";
-import { getNewProjectFormData, createNewProject } from "./to-do.js";
-import { showProjectsInNav, clearDisplay, displayNewProjectForm } from "./dom-manipulation";
+import { getProjectFormData, createNewProject } from "./to-do.js";
+import { 
+    renderProjectsInNav, 
+    clearDisplay, 
+    displayNewProjectForm, 
+    makeNewProjectButtonActive,
+    makeNewProjectButtonInactive } from "./dom-manipulation";
 
 const body = document.querySelector("body");
 
@@ -37,20 +42,25 @@ main.appendChild(nav);
 
 const display = document.createElement("div");
 display.className = "display";
-display.innerHTML = '<h3>Hey hey!<br><br>To get started, click the "New Project +" button, or pick an existing project!</h3>'
+display.innerHTML = '\
+<h2>Hey hey!<br><br>\
+To get started:<h2><br>\
+<li> Create a new project, or</li>\
+<li> Pick an existing project from the list!</li>'
 
 main.appendChild(display);
 body.appendChild(main);
 
 const footer = document.createElement("div");
 footer.className = "footer";
-footer.innerHTML = '<p>Background photo by <a href="https://unsplash.com/@andrewtneel?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Andrew Neel\
-                    </a> on <a href="https://unsplash.com/photos/cckf4TsHAuw?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a></p>\
-                    <a href="https://github.com/Ivaylo92Ivanov">Created by Ivaylo I.</a>';
+footer.innerHTML = '\
+<p>Background photo by <a href="https://unsplash.com/@andrewtneel?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Andrew Neel\
+</a> on <a href="https://unsplash.com/photos/cckf4TsHAuw?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a></p>\
+<a href="https://github.com/Ivaylo92Ivanov">Created by Ivaylo I.</a>';
 
 body.appendChild(footer);
 
-
+ 
 let projectsList = [];
 
 newProjectButton.addEventListener("click", () => {
@@ -58,15 +68,15 @@ newProjectButton.addEventListener("click", () => {
         // do nothing
     } else {
         displayNewProjectForm();
-        newProjectButton.classList.add("clicked");
+        makeNewProjectButtonInactive();
         const newProjectFormSubmitButton = document.querySelector(".submit-button");
         newProjectFormSubmitButton.addEventListener("click", e => {
             e.preventDefault();
-            let currentProject = createNewProject(getNewProjectFormData());
+            let currentProject = createNewProject(getProjectFormData());
             projectsList.push(currentProject);
-            showProjectsInNav(projectsList);
+            renderProjectsInNav(projectsList);
             clearDisplay();
-            newProjectButton.classList.remove("clicked")
+            makeNewProjectButtonActive();
         });
     };
 });

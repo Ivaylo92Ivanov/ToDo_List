@@ -2,7 +2,7 @@
 // At a minimum they should have a title, description, dueDate and priority. 
 // You might also want to include notes or even a checklist.
 
-export function getNewProjectFormData () {
+export function getProjectFormData() {
     const title = document.getElementById("title").value;
     const priority = document.getElementById("priority").value;
     const dueDate = document.getElementById("date").value;
@@ -18,4 +18,9 @@ export const createNewProject = (formInput) => {
     return {title, priority, dueDate, description}
 }
 
-
+export function updateProject(project) {
+    [project.title, project.priority, project.dueDate, project.description] = getProjectFormData();
+    const projectElement = document.querySelector(`[data-id="${project.id}"]`);
+    if (!project.title) project.title="Default Project";
+    projectElement.textContent = project.title;
+}
