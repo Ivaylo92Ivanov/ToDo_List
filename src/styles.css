@@ -4,10 +4,13 @@
 }
 
 :root {
-    --main-color-1: rgb(245, 158, 11, 0.5);
-    --main-color-2: #fef3c7;
-    --main-color-3: #38bdf8;
-    --main-color-4: #ef4444;
+    
+    --main-color-1: rgba(52, 211, 153, 0.8);
+    --main-color-2: #dcfce7;
+    --main-color-3: #ef4444;    
+    --main-color-4: #34d399;
+    --main-color-5: rgba(245, 158, 11, 0.5);
+    --main-color-6: #fef3c7;
 }
 
 html {
@@ -77,8 +80,9 @@ button {
 }
 
 .new-project-form {
+    background-color: var(--main-color-6, lightyellow);
+    color: black;
     padding: 1rem;
-    border: 2px solid white;
     border-radius: 12px;
 }
 
@@ -115,7 +119,7 @@ select {
 
 .project-element-title {
     flex: 1;
-    background-color: var(--main-color-2, lightyellow);
+    background-color: var(--main-color-6, lightyellow);
 }
 
 .project-element-title:hover {
@@ -123,7 +127,11 @@ select {
 }
 
 .new-project-button {
-    background-color: var(--main-color-3, skyblue);
+    background-color: var(--main-color-4, lightgreen);
+}
+
+.add-todo-button{
+    background-color: var(--main-color-4, lightgreen);
 }
 
 .new-project-button:active {
@@ -131,13 +139,13 @@ select {
 }
 
 .new-project-button.clicked:active {
-    background-color: var(--main-color-4, red);
+    background-color: var(--main-color-3, red);
     color: white;
 }
 
 .submit-button,
 .save-edit-button {
-    background-color: var(--main-color-3, skyblue);
+    background-color: var(--main-color-4, lightgreen);
     padding: 0.5rem;
 }
 
@@ -147,7 +155,7 @@ select {
 }
 
 .cancel-form-button {
-    background-color: var(--main-color-4, red);
+    background-color: var(--main-color-3, red);
     padding: 0.5rem;
 }
 
@@ -157,16 +165,15 @@ select {
 }
 
 .delete-project-button {
-    background-color: var(--main-color-4, red);
+    background-color: var(--main-color-3, red);
 }
 
 .edit-project-button {
-    background-color: var(--main-color-1, brown);
+    background-color: var(--main-color-5, brown);
 
 }
 .edit-project-button,
 .delete-project-button {
-    margin-top: 0.3rem;
     width: fit-content;
     align-self: flex-end;
     align-items: center;
@@ -178,10 +185,21 @@ select {
 .project-display {
     display: flex;
     flex-direction: column;
-    background-color: var(--main-color-2, lightyellow);
+    gap: 1rem;
+}
+
+.project-display-content-wrapper,
+.to-do-display {
     color: black;
     border-radius: 12px;
     padding: 1rem;
+    background-color: var(--main-color-6, lightyellow);
+}
+
+.project-display-buttons-wrapper {
+    display: flex;
+    gap: 0.3rem;
+    justify-content: flex-end;
 }
 
 .project-display-title {
@@ -189,10 +207,9 @@ select {
     text-decoration: underline;
 }
 
-.to-do-display {
-    padding: 1rem;
-    border: 2px solid white;
-    border-radius: 12px;
+.project-description-p {
+    margin-left: 1.4rem;
+    text-align: justify
 }
 
 h1 {

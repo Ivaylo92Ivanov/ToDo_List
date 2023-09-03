@@ -4,11 +4,9 @@
 
 export const projectsLibraryCreator = () => {
     const library = [];
-
     const addProject = (project) => library.push(project);
     const removeProject = (projectIndex) => library.splice(projectIndex, 1);
     const getLibrary = () => library;
-
     return { addProject, removeProject, getLibrary}
 }
 
@@ -25,7 +23,8 @@ export const projectsCreator = (formInput) => {
     let priority = formInput[1];
     let dueDate = formInput[2];
     let description = formInput[3];
-    return {title, priority, dueDate, description}
+    let toDoNotes = [];
+    return {title, priority, dueDate, description, toDoNotes}
 }
 
 export function updateProject(project) {
