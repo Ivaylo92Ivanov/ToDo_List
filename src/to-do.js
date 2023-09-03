@@ -2,7 +2,7 @@
 // At a minimum they should have a title, description, dueDate and priority. 
 // You might also want to include notes or even a checklist.
 
-export const createProjectsLibrary = () => {
+export const projectsLibraryCreator = () => {
     const library = [];
 
     const addProject = (project) => library.push(project);
@@ -20,7 +20,7 @@ export function getProjectFormData() {
     return [title, priority, dueDate, description]
 }
 
-export const createNewProject = (formInput) => {
+export const projectsCreator = (formInput) => {
     let title = formInput[0];
     let priority = formInput[1];
     let dueDate = formInput[2];
