@@ -258,8 +258,7 @@ h1 {
 
 
 
-.note-buttons-wrapper,
-.note-edit-buttons-wrapper {
+.note-buttons-wrapper {
     margin: 0.3rem 0 0.3rem auto;
     padding: 0.1rem;
     display: flex;

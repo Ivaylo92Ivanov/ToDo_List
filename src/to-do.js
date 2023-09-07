@@ -34,9 +34,9 @@ export const noteCreator = (content) => {
         noteCheckbox.type = "checkbox";
         noteDisplayDiv.appendChild(noteCheckbox);
 
-        const noteTextField = document.createElement("p");
-        noteTextField.textContent = noteContent;
-        noteDisplayDiv.appendChild(noteTextField);
+        const noteText = document.createElement("p");
+        noteText.textContent = noteContent;
+        noteDisplayDiv.appendChild(noteText);
 
         const buttonsWrapper = document.createElement("div");
         buttonsWrapper.className = ("note-buttons-wrapper");
@@ -44,7 +44,7 @@ export const noteCreator = (content) => {
         const editButton = document.createElement("button");
         editButton.className = "todo-edit-button";
         editButton.textContent = "Edit";
-        editButton.addEventListener("click", () => editNote(noteDisplayDiv, noteEditDiv, noteTextField, noteEditField));
+        editButton.addEventListener("click", () => renderEditMenu(noteDisplayDiv, noteEditDiv, noteText, noteEditField));
 
         const deleteButton = document.createElement("button");
         deleteButton.className = "todo-delete-button";
@@ -72,6 +72,9 @@ export const noteCreator = (content) => {
         saveEditButton.className = "save-note-edit-button"
         saveEditButton.addEventListener("click", (e) => {
             e.preventDefault();
+            editNote(noteText, noteEditField.value);
+            noteEditDiv.style.display = "none";
+            noteDisplayDiv.style.display = "flex";   
         });
 
         const cancelEditButton = document.createElement("button");
@@ -79,12 +82,12 @@ export const noteCreator = (content) => {
         cancelEditButton.textContent = "X";
         cancelEditButton.addEventListener("click", (e) => {
             e.preventDefault();
-            noteDisplayDiv.style.display = "flex";
             noteEditDiv.style.display = "none";
+            noteDisplayDiv.style.display = "flex";
         });
         
         const noteButtonsWrapper = document.createElement("div");
-        noteButtonsWrapper.className = "note-edit-buttons-wrapper";
+        noteButtonsWrapper.className = "note-buttons-wrapper";
 
         noteButtonsWrapper.appendChild(saveEditButton);
         noteButtonsWrapper.appendChild(cancelEditButton);
@@ -95,16 +98,20 @@ export const noteCreator = (content) => {
         return toDoNoteDiv        
     };
     
-    const editNote = (noteDisplayDiv, noteEditDiv, noteTextField, noteEditField) => {
-        let noteCurrentText = noteTextField.textContent 
-        noteDisplayDiv.style.display = "none";
-        console.log(noteDisplayDiv)
+    const editNote = (textHolder, newText) => {
+        textHolder.textContent = newText;
         
+    }
+
+    const renderEditMenu = (noteDisplayDiv, noteEditDiv, noteText, noteEditField) => {
+        let noteCurrentText = noteText.textContent 
         noteEditField.value = noteCurrentText;
+
+        noteDisplayDiv.style.display = "none";
         noteEditDiv.style.display = "flex";
     }
 
-    return {noteContent, renderNote, editNote}
+    return {noteContent, renderNote, renderEditMenu}
     
 }
 
