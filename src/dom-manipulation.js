@@ -1,10 +1,8 @@
 import EditIcon from "./icons/edit-button-icon.svg"
 import DeleteIcon from "./icons/delete-button-icon.svg"
-import { projectsCreator, getProjectFormData, updateProject } from "./to-do";
 
-// this whole thing needs to be reworked as 1 complete module, 
-// so all functions can have access to the library as global variable
-// in order to be independent from each other
+
+import { projectsCreator, getProjectFormData, updateProject, noteCreator } from "./to-do";
 
 export const domManipulator = (() => {
     let projectsLibrary;
@@ -234,18 +232,24 @@ export const domManipulator = (() => {
                     <button class="delete-project-button"><img src="${DeleteIcon}" height="17px"/>Delete Project</button>
                  </div>\ 
             </div>\
+        <div class="todo-display">\
+            <form action="" class="add-todo-form">\
+            <input type="text" id="todo-note-input"></input>\    
+                <button class="add-todo-button"><h4>+ TO-DO</h4></button>\   
+            </form>\
+            <div class="todo-list">\
                 
-        <div class="to-do-display">\
-            <h3>To-do Tasks:</h3><br>
-            <button class="add-todo-button">Add To-Do</button>\
-            <form action="">
-                <input type="checkbox"> SAdasdads</input>
-            </form>
+            </div>\
         </div>`
+        renderToDoNotes(project);
 
         const addToDoButton = document.querySelector(".add-todo-button");
-        addToDoButton.addEventListener("click", () => addToDoNote());
-
+        addToDoButton.addEventListener("click", (e) => {
+            e.preventDefault();
+            addToDoNote(project);
+            renderToDoNotes(project);
+        });
+        
         const editButton = document.querySelector(".edit-project-button");
         editButton.addEventListener("click", () =>  editProject(project));
     
@@ -253,12 +257,23 @@ export const domManipulator = (() => {
         deleteButton.addEventListener("click", () => deleteProject(project));
     }
 
-    function addToDoNote() {
-        console.log("in function")
-        return
+    function addToDoNote(project) {
+        let noteInput = document.getElementById("todo-note-input");
+        if (noteInput.value) project.addToDoNote(noteCreator(noteInput.value));
+        console.log(project.toDoNotes)
+        noteInput.value = "";
     }
+
+    function renderToDoNotes(project) {
+        const toDoNotesDisplay = document.querySelector(".todo-list");
+        toDoNotesDisplay.innerHTML = "";
+        project.toDoNotes.forEach(noteObject => {
+            toDoNotesDisplay.appendChild(noteObject.renderNote());
+            // noteObject
+        });
+    }
+
     return {createPage, getLibrary}
-}
-)()
+})()
 
 

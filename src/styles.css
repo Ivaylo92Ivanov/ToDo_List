@@ -7,10 +7,12 @@
     
     --main-color-1: rgba(52, 211, 153, 0.8);
     --main-color-2: #dcfce7;
-    --main-color-3: #ef4444;    
+    --main-color-3: rgba(239, 68, 68, 0.8);    
     --main-color-4: #34d399;
-    --main-color-5: rgba(245, 158, 11, 0.5);
-    --main-color-6: #fef3c7;
+    --main-color-5: #fef3c7;
+    /* --main-color-6: #fef3c7; */
+    /* --main-color-6:#f0fdf4; */
+    --main-color-6: rgb(0,0,0,0.6);
 }
 
 html {
@@ -25,7 +27,7 @@ body {
 }
 
 .header {
-    background-color: var(--main-color-1, brown);
+    background-color: var(--main-color-1, lightgreen);
     padding: 1rem 3rem;
     display: flex;
     align-items: center;
@@ -33,6 +35,7 @@ body {
 }
 
 .main {
+    background-color: var(--main-color-6, black);
     display: flex;
     flex-wrap: wrap;
     align-content: stretch;
@@ -43,9 +46,9 @@ body {
 .display {
     padding: 2rem;
     margin: 2rem;
-    background-color: rgb(0, 0, 0, 0.6);
+    background-color: rgb(240,240,240, 0.6);
     box-shadow: 2px 2px 12px black;
-    border-radius: 12px;
+    border-radius: 6px;
     color: white;
 }
 
@@ -63,7 +66,7 @@ body {
 }
 
 .footer {
-    background-color: var(--main-color-1, brown);
+    background-color: var(--main-color-1, lightgreen);
     padding: 0.5rem;
     display: flex;
     flex-wrap: wrap;
@@ -76,14 +79,15 @@ body {
 
 button {
     padding: 0.3rem;
-    border-radius: 8px;
+    border-radius: 6px;
 }
 
 .new-project-form {
     background-color: var(--main-color-6, lightyellow);
-    color: black;
+    color: white;
     padding: 1rem;
-    border-radius: 12px;
+    border: 2px solid black;
+    border-radius: 6px;
 }
 
 .new-project-form li {
@@ -97,19 +101,19 @@ button {
     justify-content: space-between;
 }
 
-input {
+input,
+textarea,
+select {
     flex: 1;
-    padding-left: 0.1rem;
+    border-radius: 6px;
+    padding-left: 0.3rem;
 }
 
 textarea {
     box-sizing: border-box;
-    flex: 1;
     padding: 0.5rem;
 }
-select {
-    flex: 1;
-}
+
 
 .projects-div {
     display: flex;
@@ -120,6 +124,7 @@ select {
 .project-element-title {
     flex: 1;
     background-color: var(--main-color-6, lightyellow);
+    color: white;
 }
 
 .project-element-title:hover {
@@ -127,11 +132,15 @@ select {
 }
 
 .new-project-button {
+    font-size: 1rem;
     background-color: var(--main-color-4, lightgreen);
 }
 
-.add-todo-button{
+.add-todo-button,
+.save-note-edit-button {
+    width: fit-content;
     background-color: var(--main-color-4, lightgreen);
+    align-self: flex-end;
 }
 
 .new-project-button:active {
@@ -154,10 +163,13 @@ select {
     color: white;
 }
 
-.cancel-form-button {
+.cancel-form-button,
+.todo-delete-button,
+.cancel-note-edit-button {
     background-color: var(--main-color-3, red);
-    padding: 0.5rem;
 }
+
+
 
 .cancel-form-button:active,
 .delete-project-button.active {
@@ -168,7 +180,8 @@ select {
     background-color: var(--main-color-3, red);
 }
 
-.edit-project-button {
+.edit-project-button,
+.todo-edit-button {
     background-color: var(--main-color-5, brown);
 
 }
@@ -189,11 +202,19 @@ select {
 }
 
 .project-display-content-wrapper,
-.to-do-display {
-    color: black;
-    border-radius: 12px;
+.todo-display {
+    border: 2px solid black;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    border-radius: 6px;
     padding: 1rem;
     background-color: var(--main-color-6, lightyellow);
+}
+
+.todo-display {
+    gap: 1rem;
 }
 
 .project-display-buttons-wrapper {
@@ -209,9 +230,47 @@ select {
 
 .project-description-p {
     margin-left: 1.4rem;
-    text-align: justify
+    text-align: justify;
+}
+
+.add-todo-form {
+    display: flex;
+    /* align-items: center; */
+    gap: 1rem;
+    flex-direction: column;
 }
 
 h1 {
     text-decoration: underline;
+}
+
+.todo-list {
+    
+}
+
+.todo-note > div {
+    display: flex;
+    gap: 0.3rem;
+    border-bottom: 1px solid black;
+    align-items: center;
+    text-align: justify;
+}
+
+
+
+.note-buttons-wrapper,
+.note-edit-buttons-wrapper {
+    margin: 0.3rem 0 0.3rem auto;
+    padding: 0.1rem;
+    display: flex;
+    gap: 0.3rem;
+    align-self: flex-end;
+}
+
+input[type="checkbox"] {
+    flex: 0;
+}
+
+.hidden {
+    display: none;
 }
