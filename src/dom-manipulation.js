@@ -269,7 +269,6 @@ export const domManipulator = (() => {
         toDoNotesDisplay.innerHTML = "";
         project.toDoNotes.forEach(noteObject => {
             toDoNotesDisplay.appendChild(noteObject.renderNote());
-            // noteObject
         });
     }
 

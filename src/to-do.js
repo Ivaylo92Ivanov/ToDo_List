@@ -1,7 +1,3 @@
-// Brainstorm what kind of properties your todo-items are going to have. 
-// At a minimum they should have a title, description, dueDate and priority. 
-// You might also want to include notes or even a checklist.
-
 export const projectsLibraryCreator = () => {
     const library = [];
     const addProject = (project) => library.push(project);
@@ -24,8 +20,6 @@ export const noteCreator = (content) => {
     const renderNote = () => {
         const toDoNoteDiv = document.createElement("div");
         toDoNoteDiv.className = "todo-note";
-
-
 
         // create the note display
         const noteDisplayDiv = document.createElement("div");
@@ -57,9 +51,7 @@ export const noteCreator = (content) => {
 
         toDoNoteDiv.appendChild(noteDisplayDiv)
 
-
-
-        // create the edit note display
+        // create the edit note display and set its display to none
         const noteEditDiv = document.createElement("div");
         noteEditDiv.style.display = "none";
 
@@ -100,6 +92,8 @@ export const noteCreator = (content) => {
     
     const editNote = (textHolder, newText) => {
         textHolder.textContent = newText;
+        noteContent = newText;
+        console.log(noteContent)
         
     }
 
@@ -123,6 +117,7 @@ export const projectsCreator = (formInput) => {
     let toDoNotes = [];
     const addToDoNote = (note) => toDoNotes.push(note);
     const removeToDoNote = (note) => toDoNotes.splice(toDoNotes.indexOf(note), 1);
+    // const editNote = (note) => note.editNote();
     return {title, priority, dueDate, description, toDoNotes, addToDoNote, removeToDoNote}
 }
 
