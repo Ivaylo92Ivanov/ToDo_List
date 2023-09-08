@@ -270,6 +270,7 @@ export const domManipulator = (() => {
         project.toDoNotes.forEach(noteObject => {
             toDoNotesDisplay.appendChild(noteObject.renderNote());
         });
+        console.log("maybe here?")
     }
 
     return {createPage, getLibrary}

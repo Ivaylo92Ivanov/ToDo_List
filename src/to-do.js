@@ -16,8 +16,10 @@ export function getProjectFormData() {
 
 export const noteCreator = (content) => {
     let noteContent = content;
+    let isChecked = false;
 
     const renderNote = () => {
+
         const toDoNoteDiv = document.createElement("div");
         toDoNoteDiv.className = "todo-note";
 
@@ -26,10 +28,23 @@ export const noteCreator = (content) => {
 
         const noteCheckbox = document.createElement("input");
         noteCheckbox.type = "checkbox";
+        noteCheckbox.checked = isChecked;
+        noteCheckbox.addEventListener('change', () => {
+            if (isChecked) {
+                noteText.classList.remove("checked");
+                isChecked = false;
+                noteCheckbox.checked = isChecked;
+            } else {
+                noteText.classList.add("checked");
+                isChecked = true;
+                noteCheckbox.checked = isChecked;
+            }
+        });
         noteDisplayDiv.appendChild(noteCheckbox);
 
         const noteText = document.createElement("p");
         noteText.textContent = noteContent;
+        if (isChecked) noteText.classList.add("checked");
         noteDisplayDiv.appendChild(noteText);
 
         const buttonsWrapper = document.createElement("div");
@@ -87,23 +102,21 @@ export const noteCreator = (content) => {
         noteEditDiv.appendChild(noteButtonsWrapper);
         toDoNoteDiv.appendChild(noteEditDiv);
 
-        return toDoNoteDiv        
+        return toDoNoteDiv;        
     };
     
-    const editNote = (textHolder, newText) => {
-        textHolder.textContent = newText;
-        noteContent = newText;
-        console.log(noteContent)
-        
-    }
-
     const renderEditMenu = (noteDisplayDiv, noteEditDiv, noteText, noteEditField) => {
         let noteCurrentText = noteText.textContent 
         noteEditField.value = noteCurrentText;
-
         noteDisplayDiv.style.display = "none";
         noteEditDiv.style.display = "flex";
-    }
+    };
+
+    const editNote = (textHolder, newText) => {
+        textHolder.textContent = newText;
+        noteContent = newText;
+    };
+
 
     return {noteContent, renderNote, renderEditMenu}
     
@@ -117,7 +130,6 @@ export const projectsCreator = (formInput) => {
     let toDoNotes = [];
     const addToDoNote = (note) => toDoNotes.push(note);
     const removeToDoNote = (note) => toDoNotes.splice(toDoNotes.indexOf(note), 1);
-    // const editNote = (note) => note.editNote();
     return {title, priority, dueDate, description, toDoNotes, addToDoNote, removeToDoNote}
 }
 
@@ -128,43 +140,3 @@ export function updateProject(project) {
     projectElement.textContent = project.title;
 }
 
-
-// const renderNote = () => {
-//     const toDoNoteDiv = document.createElement("div");
-//     toDoNoteDiv.className = "todo-note";
-
-//     const noteDisplay = document.createElement("div");
-
-//     const noteCheckbox = document.createElement("input");
-//     noteCheckbox.type = "checkbox";
-//     toDoNoteDiv.appendChild(noteCheckbox);
-
-
-
-//     const noteEditField = document.createElement("input");
-//     noteEditField.type = "text";
-//     noteEditField.classList.add("hidden");
-//     toDoNoteDiv.appendChild(noteEditField);
-
-//     const noteTextField = document.createElement("p");
-//     noteTextField.textContent = noteContent;
-//     toDoNoteDiv.appendChild(noteTextField);
-
-//     const buttonsWrapper = document.createElement("div");
-//     buttonsWrapper.className = ("note-buttons-wrapper");
-
-//     const editButton = document.createElement("button");
-//     editButton.className = "todo-edit-button";
-//     editButton.textContent = "Edit";
-//     editButton.addEventListener("click", () => editNote(noteTextField, noteEditField));
-
-//     const deleteButton = document.createElement("button");
-//     deleteButton.className = "todo-delete-button";
-//     deleteButton.textContent = "X";
-//     deleteButton.addEventListener("click", () => console.log(noteContent));
-    
-//     buttonsWrapper.appendChild(editButton);
-//     buttonsWrapper.appendChild(deleteButton);
-//     toDoNoteDiv.appendChild(buttonsWrapper);
-
-//     return toDoNoteDiv        
