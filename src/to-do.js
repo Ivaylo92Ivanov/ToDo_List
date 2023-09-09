@@ -17,12 +17,24 @@ export function getProjectFormData() {
 export const noteCreator = (content) => {
     let noteContent = content;
     let isChecked = false;
+    let deleteButton;
+
+    const getNoteContent = () => {
+        return noteContent
+    }
+
+    const getDeleteButton = () => {
+        return deleteButton
+    }
+
+    function setDeleteButton(button) {
+        deleteButton = button;
+    }
 
     const renderNote = () => {
-
         const toDoNoteDiv = document.createElement("div");
         toDoNoteDiv.className = "todo-note";
-
+        
         // create the note display
         const noteDisplayDiv = document.createElement("div");
 
@@ -58,7 +70,8 @@ export const noteCreator = (content) => {
         const deleteButton = document.createElement("button");
         deleteButton.className = "todo-delete-button";
         deleteButton.textContent = "X";
-        deleteButton.addEventListener("click", () => console.log(noteContent));
+        setDeleteButton(deleteButton);
+        
         
         buttonsWrapper.appendChild(editButton);
         buttonsWrapper.appendChild(deleteButton);
@@ -66,7 +79,8 @@ export const noteCreator = (content) => {
 
         toDoNoteDiv.appendChild(noteDisplayDiv)
 
-        // create the edit note display and set its display to none
+        // create the edit note display 
+        // and set its display to none
         const noteEditDiv = document.createElement("div");
         noteEditDiv.style.display = "none";
 
@@ -118,7 +132,7 @@ export const noteCreator = (content) => {
     };
 
 
-    return {noteContent, renderNote, renderEditMenu}
+    return {getNoteContent, renderNote, renderEditMenu, getDeleteButton}
     
 }
 
@@ -128,9 +142,9 @@ export const projectsCreator = (formInput) => {
     let dueDate = formInput[2];
     let description = formInput[3];
     let toDoNotes = [];
-    const addToDoNote = (note) => toDoNotes.push(note);
+    const addNote = (note) => toDoNotes.push(note);
     const removeToDoNote = (note) => toDoNotes.splice(toDoNotes.indexOf(note), 1);
-    return {title, priority, dueDate, description, toDoNotes, addToDoNote, removeToDoNote}
+    return {title, priority, dueDate, description, toDoNotes, addNote, removeToDoNote}
 }
 
 export function updateProject(project) {

@@ -259,20 +259,29 @@ export const domManipulator = (() => {
 
     function addToDoNote(project) {
         let noteInput = document.getElementById("todo-note-input");
-        if (noteInput.value) project.addToDoNote(noteCreator(noteInput.value));
-        console.log(project.toDoNotes)
+        if (noteInput.value) project.addNote(noteCreator(noteInput.value));
         noteInput.value = "";
     }
 
     function renderToDoNotes(project) {
         const toDoNotesDisplay = document.querySelector(".todo-list");
         toDoNotesDisplay.innerHTML = "";
+
+        let noteDeleteButtons = [];
         project.toDoNotes.forEach(noteObject => {
             toDoNotesDisplay.appendChild(noteObject.renderNote());
+            noteDeleteButtons.push(noteObject.getDeleteButton());
         });
-        console.log("maybe here?")
-    }
 
+        noteDeleteButtons.forEach(button => {
+            let noteObject = project.toDoNotes[noteDeleteButtons.indexOf(button)];
+            button.addEventListener("click", () => {
+                project.removeToDoNote(noteObject);
+                renderToDoNotes(project);
+            });
+        });
+    };
+    
     return {createPage, getLibrary}
 })()
 
