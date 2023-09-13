@@ -202,7 +202,7 @@ export const domManipulator = (() => {
         saveChangesButton.addEventListener("click", (e) => {
             e.preventDefault();
             updateProject(project);
-            clearDisplay();
+            renderProjectInDisplay(project);
         });
         
     }
@@ -224,8 +224,7 @@ export const domManipulator = (() => {
         <div class="project-display">\
             <div class="project-display-content-wrapper">\
                 <h1 class="project-display-title">${project.title}</h1>\
-                <li><strong>Priority:</strong> ${project.priority}</li>\
-                <li><strong>Due Date:</strong> ${project.dueDate}</li>\
+                
                 <li><strong>Project Description:</strong><p class="project-description-p">${project.description}<p>\</li>\
                 <div class="project-display-buttons-wrapper">\
                     <button class="edit-project-button"><img src="${EditIcon}" height="17px"/>Edit Project</button>\
@@ -281,7 +280,7 @@ export const domManipulator = (() => {
             });
         });
     };
-    
+
     return {createPage, getLibrary}
 })()
 
