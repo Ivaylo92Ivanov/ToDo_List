@@ -8,10 +8,8 @@ export const projectsLibraryCreator = () => {
 
 export function getProjectFormData() {
     const title = document.getElementById("title").value;
-    const priority = document.getElementById("priority").value;
-    const dueDate = document.getElementById("date").value;
     const description = document.getElementById("description").value;
-    return [title, priority, dueDate, description]
+    return [title,  description]
 }
 
 export const noteCreator = (content) => {
@@ -138,13 +136,11 @@ export const noteCreator = (content) => {
 
 export const projectsCreator = (formInput) => {
     let title = formInput[0];
-    let priority = formInput[1];
-    let dueDate = formInput[2];
-    let description = formInput[3];
+    let description = formInput[1];
     let toDoNotes = [];
     const addNote = (note) => toDoNotes.push(note);
     const removeToDoNote = (note) => toDoNotes.splice(toDoNotes.indexOf(note), 1);
-    return {title, priority, dueDate, description, toDoNotes, addNote, removeToDoNote}
+    return {title, description, toDoNotes, addNote, removeToDoNote}
 }
 
 export function updateProject(project) {

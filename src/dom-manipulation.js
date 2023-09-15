@@ -103,17 +103,6 @@ export const domManipulator = (() => {
             <h1>Create New Project</h1>\
             <li><label for="title" >Project Title:</label></li>\
             <li><input type="text" id="title" value=""></li>\
-            <li><label for="priority">Pick Priority:</label></li>\
-            <li>\
-                <select name="priority" id="priority">\
-                    <option value="None">None</option>\
-                    <option value="High">High</option>\
-                    <option value="Medium">Medium</option>\
-                    <option value="Low">Low</option>\
-                </select>\
-            </li>\
-            <li><label for="date">Due Date:</label></li>\
-            <li><input type="date" id="date" value=""></li>\
             <li><label for="description">Description:</label>\</li>\
             <li><textarea name="description" id="description" cols="" rows="20"></textarea></li>\
             <li class="form-buttons-wrapper">\
@@ -171,18 +160,6 @@ export const domManipulator = (() => {
             <h1>Edit Project "<em>${project.title}</em>"</h1>\
             <li><label for="title" >Project Title:</label></li>\
             <li><input type="text" id="title" value="${project.title}"></li>\
-            <li><label for="priority">Pick Priority:</label></li>\
-            <li>\
-                <select name="priority" id="priority">\
-                <script></script>
-                    <option value="None">None</option>\
-                    <option value="High">High</option>\
-                    <option value="Medium">Medium</option>\
-                    <option value="Low">Low</option>\
-                </select>\
-            </li>\
-            <li><label for="date">Due Date:</label></li>\
-            <li><input type="date" id="date" value="${project.dueDate}"></li>\
             <li><label for="description">Description:</label>\</li>\
             <li><textarea name="description" id="description" cols="" rows="20">${project.description}</textarea></li>\
             <li class="form-buttons-wrapper">\
