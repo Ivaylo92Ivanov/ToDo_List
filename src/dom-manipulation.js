@@ -71,7 +71,7 @@ export const domManipulator = (() => {
                     e.preventDefault();
                     let currentProject = projectsCreator(getProjectFormData());
                     projectsLibrary.addProject(currentProject);
-                    renderProjectsInNav(projectsLibrary);
+                    renderProjectsMenu(projectsLibrary);
                     clearDisplay();
                     makeNewProjectButtonActive();
                 });
@@ -120,7 +120,7 @@ export const domManipulator = (() => {
         clearDisplay();
     };
     
-    function renderProjectsInNav() {
+    function renderProjectsMenu() {
         const projectsDiv = document.querySelector(".projects-div");
         projectsDiv.innerHTML = "";
     
@@ -129,7 +129,7 @@ export const domManipulator = (() => {
             projectElement.className = "project-element-title";
             if (!currentProject.title) currentProject.title="Default Project";
             projectElement.textContent = currentProject.title;
-            setCurrentProjectId( currentProject);
+            setCurrentProjectId(currentProject);
             setMatchingIdForProjectElement(projectElement, currentProject.id);
             projectsDiv.appendChild(projectElement);
         });
@@ -167,10 +167,6 @@ export const domManipulator = (() => {
             <button type="submit" class="save-edit-button">Save Changes</button>\
             </li>\
         </form>`;
-        
-        //have the option for priority set as selected
-        const options = document.querySelectorAll("option");
-        options.forEach(option => {if(option.value == project.priority) option.setAttribute('selected','selected')})
     
         const cancelButton = document.querySelector(".cancel-form-button");
         cancelButton.addEventListener("click", () => cancelFormSubmission());
@@ -187,7 +183,7 @@ export const domManipulator = (() => {
      function deleteProject(project) {
         if(confirm(`Are you sure you want to delete project ${project.title}?`)) {
             projectsLibrary.removeProject(project.id);
-            renderProjectsInNav(projectsLibrary);
+            renderProjectsMenu(projectsLibrary);
             clearDisplay();
         } else {
          return
@@ -201,7 +197,6 @@ export const domManipulator = (() => {
         <div class="project-display">\
             <div class="project-display-content-wrapper">\
                 <h1 class="project-display-title">${project.title}</h1>\
-                
                 <li><strong>Project Description:</strong><p class="project-description-p">${project.description}<p>\</li>\
                 <div class="project-display-buttons-wrapper">\
                     <button class="edit-project-button"><img src="${EditIcon}" height="17px"/>Edit Project</button>\
@@ -210,8 +205,17 @@ export const domManipulator = (() => {
             </div>\
         <div class="todo-display">\
             <form action="" class="add-todo-form">\
-            <input type="text" id="todo-note-input"></input>\    
-                <button class="add-todo-button"><h4>+ TO-DO</h4></button>\   
+                <input type="text" id="todo-note-input"></input>\    
+                <div class="add-note-date-and-priority-wrapper">
+                    <input type="date" id="note-due-date"> 
+                    <select id="note-priority">\
+                        <option>No Priority</option>\
+                        <option>High Priority</option>\
+                        <option>Medium Priority</option>\
+                        <option>Low Priority</option>\
+                    </select>\
+                    <button class="add-todo-button"><h4>+ TO-DO</h4></button>\
+                </div>   
             </form>\
             <div class="todo-list">\
                 
@@ -234,9 +238,13 @@ export const domManipulator = (() => {
     }
 
     function addToDoNote(project) {
-        let noteInput = document.getElementById("todo-note-input");
-        if (noteInput.value) project.addNote(noteCreator(noteInput.value));
-        noteInput.value = "";
+        let noteText = document.getElementById("todo-note-input");
+        let noteDueDate = document.getElementById("note-due-date");
+        let notePriority = document.getElementById("note-priority");
+        if (noteText.value) project.addNote(noteCreator(noteText.value, noteDueDate.value, notePriority.value));
+        noteText.value = "";
+        noteDueDate.value = "";
+        notePriority.value = "No Priority";
     }
 
     function renderToDoNotes(project) {

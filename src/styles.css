@@ -239,6 +239,9 @@ textarea {
     /* align-items: center; */
     gap: 1rem;
     flex-direction: column;
+    border: 2px solid black;
+    padding: 0.5rem;
+    border-radius: 8px;
 }
 
 h1 {
@@ -260,7 +263,7 @@ h1 {
 
 
 .note-buttons-wrapper {
-    margin: 0.3rem 0 0.3rem auto;
+    margin: 0.3rem 0;
     padding: 0.1rem;
     display: flex;
     gap: 0.3rem;
@@ -277,4 +280,15 @@ input[type="checkbox"] {
 
 .checked {
     text-decoration: line-through;
+}
+
+.add-note-date-and-priority-wrapper {
+    display: flex;
+    align-items: center;
+    gap:1rem;
+}
+
+.note-date-and-priority-wrapper {
+    /* display: flex; */
+    margin-left: auto;
 }

@@ -12,8 +12,27 @@ export function getProjectFormData() {
     return [title,  description]
 }
 
-export const noteCreator = (content) => {
+export const projectsCreator = (formInput) => {
+    let title = formInput[0];
+    let description = formInput[1];
+    let toDoNotes = [noteCreator("just a test note", "2023-09-08", "High Priority")];
+    const addNote = (note) => toDoNotes.push(note);
+    const removeToDoNote = (note) => toDoNotes.splice(toDoNotes.indexOf(note), 1);
+    return {title, description, toDoNotes, addNote, removeToDoNote}
+}
+
+export function updateProject(project) {
+    [project.title, project.description] = getProjectFormData();
+    const projectElement = document.querySelector(`[data-id="${project.id}"]`);
+    if (!project.title) project.title="Default Project";
+    projectElement.textContent = project.title;
+}
+
+export const noteCreator = (content, dueDate, priority) => {
     let noteContent = content;
+    let noteDueDate = dueDate;
+    let notePriority = priority;
+    console.log(noteContent, noteDueDate, notePriority)
     let isChecked = false;
     let deleteButton;
 
@@ -57,19 +76,31 @@ export const noteCreator = (content) => {
         if (isChecked) noteText.classList.add("checked");
         noteDisplayDiv.appendChild(noteText);
 
+        const dateAndPriorityWrapper = document.createElement("div");
+        dateAndPriorityWrapper.className = "note-date-and-priority-wrapper"
+
+        const noteDueDateEl = document.createElement("p");
+        noteDueDateEl.textContent = noteDueDate;
+        dateAndPriorityWrapper.appendChild(noteDueDateEl);
+
+        const notePriorityEl = document.createElement("p");
+        notePriorityEl.textContent = notePriority;
+        dateAndPriorityWrapper.appendChild(notePriorityEl);
+
+        noteDisplayDiv.appendChild(dateAndPriorityWrapper)
+
         const buttonsWrapper = document.createElement("div");
-        buttonsWrapper.className = ("note-buttons-wrapper");
+        buttonsWrapper.className = "note-buttons-wrapper";
 
         const editButton = document.createElement("button");
         editButton.className = "todo-edit-button";
         editButton.textContent = "Edit";
-        editButton.addEventListener("click", () => renderEditMenu(noteDisplayDiv, noteEditDiv, noteText, noteEditField));
+        editButton.addEventListener("click", () => renderEditMenu(noteDisplayDiv, noteEditDiv, noteText, noteTextEditField));
 
         const deleteButton = document.createElement("button");
         deleteButton.className = "todo-delete-button";
         deleteButton.textContent = "X";
         setDeleteButton(deleteButton);
-        
         
         buttonsWrapper.appendChild(editButton);
         buttonsWrapper.appendChild(deleteButton);
@@ -82,16 +113,33 @@ export const noteCreator = (content) => {
         const noteEditDiv = document.createElement("div");
         noteEditDiv.style.display = "none";
 
-        const noteEditField = document.createElement("input");
-        noteEditField.type = "text";
-        noteEditDiv.appendChild(noteEditField);
+        const noteTextEditField = document.createElement("input");
+        noteTextEditField.type = "text";
+        noteEditDiv.appendChild(noteTextEditField);
+
+        const noteDateEditField = document.createElement("input");
+        noteDateEditField.type = "date";
+        noteDateEditField.value = noteDueDate;
+        noteEditDiv.appendChild(noteDateEditField);
+
+        const notePriorityEditField = document.createElement("select");
+        const options = ["No Priority" , "High Priority", "Medium Priority", "Low Priority"];
+        for (let option of options) {
+            let currentOption = document.createElement("option");
+            currentOption.textContent = option;
+            if (option == notePriority) currentOption.setAttribute("selected", "selected");
+            notePriorityEditField.appendChild(currentOption);
+        };
+        noteEditDiv.appendChild(notePriorityEditField);
 
         const saveEditButton = document.createElement("button");
         saveEditButton.textContent = "Save"
         saveEditButton.className = "save-note-edit-button"
         saveEditButton.addEventListener("click", (e) => {
             e.preventDefault();
-            editNote(noteText, noteEditField.value);
+            editNote(noteText, noteTextEditField.value,
+                    noteDueDateEl, noteDateEditField.value,
+                    notePriorityEl, notePriorityEditField.value);
             noteEditDiv.style.display = "none";
             noteDisplayDiv.style.display = "flex";   
         });
@@ -124,9 +172,19 @@ export const noteCreator = (content) => {
         noteEditDiv.style.display = "flex";
     };
 
-    const editNote = (textHolder, newText) => {
-        textHolder.textContent = newText;
+    const editNote = (
+        textHolder, newText, 
+        dateHolder, newDate, 
+        priorityHolder, newPriority
+        ) => {
         noteContent = newText;
+        noteDueDate = newDate;
+        notePriority = newPriority;
+
+        textHolder.textContent = noteContent;
+        dateHolder.textContent = noteDueDate;
+        priorityHolder.textContent = notePriority;
+
     };
 
 
@@ -134,19 +192,4 @@ export const noteCreator = (content) => {
     
 }
 
-export const projectsCreator = (formInput) => {
-    let title = formInput[0];
-    let description = formInput[1];
-    let toDoNotes = [];
-    const addNote = (note) => toDoNotes.push(note);
-    const removeToDoNote = (note) => toDoNotes.splice(toDoNotes.indexOf(note), 1);
-    return {title, description, toDoNotes, addNote, removeToDoNote}
-}
-
-export function updateProject(project) {
-    [project.title, project.priority, project.dueDate, project.description] = getProjectFormData();
-    const projectElement = document.querySelector(`[data-id="${project.id}"]`);
-    if (!project.title) project.title="Default Project";
-    projectElement.textContent = project.title;
-}
 
