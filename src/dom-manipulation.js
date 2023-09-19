@@ -1,6 +1,13 @@
 import EditIcon from "./icons/edit-button-icon.svg"
 import DeleteIcon from "./icons/delete-button-icon.svg"
+import ProjectIcon from "./icons/project.svg"
+import { compareDesc, compareAsc, format } from 'date-fns'
 
+// console.log([
+//     new Date(1995, 6, 2),
+//     new Date(1987, 1, 11),
+//     new Date(1989, 6, 10)
+//   ].sort(compareAsc))
 
 import { projectsCreator, getProjectFormData, updateProject, noteCreator } from "./to-do";
 
@@ -19,28 +26,42 @@ export const domManipulator = (() => {
         const main = document.createElement("div");
         main.className = "main";
 
-        const nav = document.createElement("div"); 
-        nav.className = "nav";
+        const sidebar = document.createElement("div"); 
+        sidebar.className = "sidebar";
 
 
         const homeHeader = document.createElement("h2");
         homeHeader.textContent = "Home";
+
+        const homeDiv = document.createElement("div");
+        homeDiv.className = "home-div"
+
+        const todayTasks = document.createElement("button");
+        todayTasks.textContent = "Today";
+
+        const thisWeekTasks = document.createElement("button");
+        thisWeekTasks.textContent = "This Week";
+
+        homeDiv.appendChild(todayTasks);
+        homeDiv.appendChild(thisWeekTasks);
 
         const projectsHeader = document.createElement("h2");
         projectsHeader.textContent = "Projects:";
 
         const newProjectButton = document.createElement("button");
         newProjectButton.className = "new-project-button";
-        newProjectButton.textContent = "New Project +";
+        newProjectButton.innerHTML = "<h1>+ New Project</h1>"
+        // newProjectButton.innerHTML = `<img src="${ProjectIcon}" alt="project-icon" height="30px"/>+`
 
         const protectsListDiv = document.createElement("div");
         protectsListDiv.className = "projects-div";
 
-        nav.appendChild(homeHeader);
-        nav.appendChild(projectsHeader);
-        nav.appendChild(newProjectButton);
-        nav.appendChild(protectsListDiv);
-        main.appendChild(nav);
+        sidebar.appendChild(homeHeader);
+        sidebar.appendChild(homeDiv);
+        sidebar.appendChild(projectsHeader);
+        sidebar.appendChild(newProjectButton);
+        sidebar.appendChild(protectsListDiv);
+        main.appendChild(sidebar);
 
         const display = document.createElement("div");
         display.className = "display";
@@ -209,10 +230,9 @@ export const domManipulator = (() => {
                 <div class="add-note-date-and-priority-wrapper">
                     <input type="date" id="note-due-date"> 
                     <select id="note-priority">\
-                        <option>No Priority</option>\
-                        <option>High Priority</option>\
-                        <option>Medium Priority</option>\
                         <option>Low Priority</option>\
+                        <option>Medium Priority</option>\
+                        <option>High Priority</option>\
                     </select>\
                     <button class="add-todo-button"><h4>+ TO-DO</h4></button>\
                 </div>   
@@ -244,7 +264,7 @@ export const domManipulator = (() => {
         if (noteText.value) project.addNote(noteCreator(noteText.value, noteDueDate.value, notePriority.value));
         noteText.value = "";
         noteDueDate.value = "";
-        notePriority.value = "No Priority";
+        notePriority.value = "Low Priority";
     }
 
     function renderToDoNotes(project) {

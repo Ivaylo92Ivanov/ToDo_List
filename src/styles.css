@@ -39,7 +39,7 @@ body {
     flex: 1;
 }
 
-.nav {
+.sidebar {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -47,7 +47,14 @@ body {
     color: white;
     padding: 2rem;       
     background-color: var(--main-color-6, gray);
-    box-shadow: 2px 2px 8px black;
+    border-right:2px solid black;
+    /* box-shadow: 2px 2px 8px black; */
+}
+
+.home-div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
 .display {
@@ -102,6 +109,7 @@ select {
     flex: 1;
     border-radius: 6px;
     padding-left: 0.3rem;
+    min-width: fit-content;
 }
 
 textarea {
@@ -116,19 +124,40 @@ textarea {
     gap: 0.5rem;
 }
 
-.project-element-title {
+.project-element-title,
+.home-div>button { 
     flex: 1;
     background-color: var(--main-color-5, gray);
-    margin: 0 0.3rem;
+    background: none;
+    color: white;
+    font-size: 1rem;
+    border: none;
+    border-bottom: 2px solid white;
+    text-align: left;
+    font-weight: 600;
+    transition: 0.5s;
 }
 
-.project-element-title:hover {
-    transform: translate(0, -0.2rem)
+.project-element-title:hover,
+.home-div>button:hover {
+    border-bottom: 2px solid var(--main-color-4, lightgreen);
+    transform: translate(0, -0.2rem);
 }
+
+/* .project-element-title:hover,
+.home-div>button:hover {
+    
+} */
 
 .new-project-button {
-    font-size: 1rem;
-    background-color: var(--main-color-4, lightgreen);
+    /* font-size: 3rem; */
+    color: white;
+    text-align: left;
+    background: none;
+    border: none;
+    border-radius: 50%;
+    max-width: fit-content;
+    transition: 0.5s;
 }
 
 .add-todo-button,
@@ -136,6 +165,7 @@ textarea {
     width: fit-content;
     background-color: var(--main-color-4, lightgreen);
     align-self: flex-end;
+
 }
 
 .new-project-button:active {
@@ -143,12 +173,17 @@ textarea {
 }
 
 .new-project-button:hover{
-    transform: translate(0, -0.2rem)
+    transform: translate(0.5rem, 0)
+}
+
+.new-project-button:active {
+    color: var(--main-color-4, lightgreen);
+    /* color: white; */
 }
 
 .new-project-button.clicked:active {
-    background-color: var(--main-color-3, red);
-    color: white;
+    color: var(--main-color-3, red);
+    /* color: white; */
 }
 
 .submit-button,
@@ -244,9 +279,6 @@ textarea {
     border-radius: 8px;
 }
 
-h1 {
-    text-decoration: underline;
-}
 
 .todo-list {
     
@@ -289,6 +321,11 @@ input[type="checkbox"] {
 }
 
 .note-date-and-priority-wrapper {
-    /* display: flex; */
+    min-width: fit-content;
+    /* align-self: flex-end; */
     margin-left: auto;
+}
+
+.note-edit-div {
+    flex-wrap: wrap;
 }

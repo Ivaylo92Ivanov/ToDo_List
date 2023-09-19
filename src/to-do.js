@@ -1,3 +1,5 @@
+import { compareDesc, compareAsc, format } from 'date-fns'
+
 export const projectsLibraryCreator = () => {
     const library = [];
     const addProject = (project) => library.push(project);
@@ -16,8 +18,12 @@ export const projectsCreator = (formInput) => {
     let title = formInput[0];
     let description = formInput[1];
     let toDoNotes = [noteCreator("just a test note", "2023-09-08", "High Priority")];
-    const addNote = (note) => toDoNotes.push(note);
+    const addNote = (note) => {
+        toDoNotes.push(note);
+        testPrintNotesDates();
+    }
     const removeToDoNote = (note) => toDoNotes.splice(toDoNotes.indexOf(note), 1);
+    const testPrintNotesDates = () => toDoNotes.forEach(note => console.log(note.noteDueDate))
     return {title, description, toDoNotes, addNote, removeToDoNote}
 }
 
@@ -32,7 +38,6 @@ export const noteCreator = (content, dueDate, priority) => {
     let noteContent = content;
     let noteDueDate = dueDate;
     let notePriority = priority;
-    console.log(noteContent, noteDueDate, notePriority)
     let isChecked = false;
     let deleteButton;
 
@@ -111,6 +116,7 @@ export const noteCreator = (content, dueDate, priority) => {
         // create the edit note display 
         // and set its display to none
         const noteEditDiv = document.createElement("div");
+        noteEditDiv.className = "note-edit-div"
         noteEditDiv.style.display = "none";
 
         const noteTextEditField = document.createElement("input");
@@ -123,7 +129,7 @@ export const noteCreator = (content, dueDate, priority) => {
         noteEditDiv.appendChild(noteDateEditField);
 
         const notePriorityEditField = document.createElement("select");
-        const options = ["No Priority" , "High Priority", "Medium Priority", "Low Priority"];
+        const options = ["Low Priority", "Medium Priority", "High Priority"];
         for (let option of options) {
             let currentOption = document.createElement("option");
             currentOption.textContent = option;
@@ -187,9 +193,7 @@ export const noteCreator = (content, dueDate, priority) => {
 
     };
 
-
-    return {getNoteContent, renderNote, renderEditMenu, getDeleteButton}
-    
+    return {getNoteContent, renderNote, renderEditMenu, getDeleteButton, noteDueDate}
 }
 
 
