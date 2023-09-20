@@ -1,7 +1,7 @@
 import EditIcon from "./icons/edit-button-icon.svg"
 import DeleteIcon from "./icons/delete-button-icon.svg"
 import ProjectIcon from "./icons/project.svg"
-import { format } from 'date-fns'
+import { format, getWeek } from 'date-fns'
 
 import { projectsCreator, getProjectFormData, updateProject, noteCreator } from "./to-do";
 
@@ -294,23 +294,36 @@ export const domManipulator = (() => {
 
         const todoDisplay = document.createElement("div");
         todoDisplay.className = "todo-display";
-        todoDisplay.innerHTML = `<h2>To-do for today, ${(format(new Date(), "do MMM yyyy, EEE"))}:</h2>`
+        todoDisplay.innerHTML = `<h2>To-do Today, ${(format(new Date(), "do MMM yyyy, EEE"))}:</h2>`
         
 
         const toDoWrapper = document.createElement("div");
         toDoWrapper.className = "todo-list";
         todayTasks.forEach(note => toDoWrapper.appendChild(note.renderNote()));
+
         todoDisplay.appendChild(toDoWrapper)
-
-
         displayDiv.appendChild(todoDisplay)
     };
 
     function renderWeekTasks() {
         makeNewProjectButtonActive();
-
+        
         const thisWeekTasks = projectsLibrary.getWeekTasks();
-        console.log(thisWeekTasks)
+        
+        const displayDiv = document.querySelector(".display");
+        displayDiv.innerHTML = "";
+
+        const todoDisplay = document.createElement("div");
+        todoDisplay.className = "todo-display";
+        todoDisplay.innerHTML = `<h2>To-do Week ${getWeek(new Date())}:</h2>`
+        
+
+        const toDoWrapper = document.createElement("div");
+        toDoWrapper.className = "todo-list";
+        thisWeekTasks.forEach(note => toDoWrapper.appendChild(note.renderNote()));
+
+        todoDisplay.appendChild(toDoWrapper)
+        displayDiv.appendChild(todoDisplay)
     };
 
     return {createPage, getLibrary}

@@ -289,7 +289,7 @@ textarea {
     gap: 0.3rem;
     border-bottom: 1px solid black;
     align-items: center;
-    text-align: justify;
+    /* text-align: justify; */
 }
 
 
