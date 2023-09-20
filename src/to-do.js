@@ -1,11 +1,31 @@
-import { compareDesc, compareAsc, format } from 'date-fns'
+import { compareDesc, compareAsc, format, isToday, isThisWeek } from 'date-fns';
 
 export const projectsLibraryCreator = () => {
     const library = [];
     const addProject = (project) => library.push(project);
     const removeProject = (projectIndex) => library.splice(projectIndex, 1);
     const getLibrary = () => library;
-    return { addProject, removeProject, getLibrary}
+    const getTodayTasks = () => {
+        const todayTasks = []
+        library.forEach(project => {
+            project.toDoNotes.forEach(note => {
+                if (isToday(new Date(note.getDueDate()))) todayTasks.push(note);
+            })
+        })
+        return todayTasks
+    };
+
+    const getWeekTasks = () => {
+        let thisWeekTasks = []
+        library.forEach(project => {
+            project.toDoNotes.forEach(note => {
+                if (isThisWeek(new Date(note.getDueDate()))) thisWeekTasks.push(note);
+            })
+        })
+        return thisWeekTasks
+    };
+
+    return { addProject, removeProject, getLibrary, getTodayTasks, getWeekTasks}
 }
 
 export function getProjectFormData() {
@@ -17,13 +37,19 @@ export function getProjectFormData() {
 export const projectsCreator = (formInput) => {
     let title = formInput[0];
     let description = formInput[1];
-    let toDoNotes = [noteCreator("just a test note", "2023-09-08", "High Priority")];
+    let toDoNotes = [
+        noteCreator("just a test note", "2023-09-20", "High Priority"),
+        noteCreator("just another test note", "2023-09-20", "High Priority"),
+        noteCreator("aaand just another test", "2023-09-22", "High Priority"),
+        noteCreator("test note for sho", "2023-09-19", "High Priority"),
+        noteCreator("just another test notesss", "2023-09-20", "High Priority"),
+    ];
     const addNote = (note) => {
         toDoNotes.push(note);
-        testPrintNotesDates();
     }
     const removeToDoNote = (note) => toDoNotes.splice(toDoNotes.indexOf(note), 1);
-    const testPrintNotesDates = () => toDoNotes.forEach(note => console.log(note.noteDueDate))
+
+    // const sortToDoNotes
     return {title, description, toDoNotes, addNote, removeToDoNote}
 }
 
@@ -193,7 +219,9 @@ export const noteCreator = (content, dueDate, priority) => {
 
     };
 
-    return {getNoteContent, renderNote, renderEditMenu, getDeleteButton, noteDueDate}
+    const getDueDate = () => noteDueDate;
+
+    return {getNoteContent, renderNote, renderEditMenu, getDeleteButton, getDueDate}
 }
 
 

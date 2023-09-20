@@ -1,13 +1,7 @@
 import EditIcon from "./icons/edit-button-icon.svg"
 import DeleteIcon from "./icons/delete-button-icon.svg"
 import ProjectIcon from "./icons/project.svg"
-import { compareDesc, compareAsc, format } from 'date-fns'
-
-// console.log([
-//     new Date(1995, 6, 2),
-//     new Date(1987, 1, 11),
-//     new Date(1989, 6, 10)
-//   ].sort(compareAsc))
+import { format } from 'date-fns'
 
 import { projectsCreator, getProjectFormData, updateProject, noteCreator } from "./to-do";
 
@@ -38,9 +32,11 @@ export const domManipulator = (() => {
 
         const todayTasks = document.createElement("button");
         todayTasks.textContent = "Today";
+        todayTasks.addEventListener("click", () => renderTodayTasks());
 
         const thisWeekTasks = document.createElement("button");
         thisWeekTasks.textContent = "This Week";
+        thisWeekTasks.addEventListener("click", () => renderWeekTasks());
 
         homeDiv.appendChild(todayTasks);
         homeDiv.appendChild(thisWeekTasks);
@@ -50,7 +46,7 @@ export const domManipulator = (() => {
 
         const newProjectButton = document.createElement("button");
         newProjectButton.className = "new-project-button";
-        newProjectButton.innerHTML = "<h1>+ New Project</h1>"
+        newProjectButton.innerHTML = "<h2>+ New Project</h2>"
         // newProjectButton.innerHTML = `<img src="${ProjectIcon}" alt="project-icon" height="30px"/>+`
 
         const protectsListDiv = document.createElement("div");
@@ -67,7 +63,7 @@ export const domManipulator = (() => {
         display.className = "display";
         display.innerHTML = '\
         <h2>To Begin:</h2><br><li> Create a new project</li>\
-        <li> Pick an existing project from the list</li>'
+        <li> Pick an existing project from the sidebar</li>'
 
         main.appendChild(display);
         body.appendChild(main);
@@ -104,7 +100,7 @@ export const domManipulator = (() => {
         const display = document.querySelector('.display');
         display.innerHTML = '\
         <h2>To Begin:</h2><br><li> Create a new project</li>\
-        <li> Pick an existing project from the list</li>'
+        <li> Pick an existing project from the sidebar</li>'
     };
 
     function makeNewProjectButtonActive() {
@@ -265,6 +261,9 @@ export const domManipulator = (() => {
         noteText.value = "";
         noteDueDate.value = "";
         notePriority.value = "Low Priority";
+
+        
+        
     }
 
     function renderToDoNotes(project) {
@@ -284,6 +283,34 @@ export const domManipulator = (() => {
                 renderToDoNotes(project);
             });
         });
+    };
+
+    function renderTodayTasks() {
+        makeNewProjectButtonActive();
+        const todayTasks = projectsLibrary.getTodayTasks();
+        console.log(todayTasks)
+        const displayDiv = document.querySelector(".display");
+        displayDiv.innerHTML = "";
+
+        const todoDisplay = document.createElement("div");
+        todoDisplay.className = "todo-display";
+        todoDisplay.innerHTML = `<h2>To-do for today, ${(format(new Date(), "do MMM yyyy, EEE"))}:</h2>`
+        
+
+        const toDoWrapper = document.createElement("div");
+        toDoWrapper.className = "todo-list";
+        todayTasks.forEach(note => toDoWrapper.appendChild(note.renderNote()));
+        todoDisplay.appendChild(toDoWrapper)
+
+
+        displayDiv.appendChild(todoDisplay)
+    };
+
+    function renderWeekTasks() {
+        makeNewProjectButtonActive();
+
+        const thisWeekTasks = projectsLibrary.getWeekTasks();
+        console.log(thisWeekTasks)
     };
 
     return {createPage, getLibrary}
