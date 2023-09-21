@@ -1,4 +1,4 @@
-import { isToday, isThisWeek, addDays } from 'date-fns';
+import { isToday, isThisWeek } from 'date-fns';
 
 export const projectsLibraryCreator = () => {
     const library = [];
@@ -24,22 +24,15 @@ export const projectsLibraryCreator = () => {
         });
 
         //sort this week tasks by date
-        function compare(a,b) {
-            if (new Date(a.getDueDate()) < new Date(b.getDueDate())) {
-                return -1;
-            } 
-            if (new Date(a.getDueDate()) > new Date(b.getDueDate())) {
-                return 1;
-            } 
-            return 0;
-        }
-        thisWeekTasks.sort(compare);
+        
+        thisWeekTasks.sort(compareNotesByDate);
         
         return thisWeekTasks
     };
 
     return { getLibrary, addProject, removeProject, getTodayTasks, getWeekTasks}
 }
+
 
 export function getProjectFormData() {
     const title = document.getElementById("title").value;
@@ -55,9 +48,9 @@ export const projectsCreator = (formInput) => {
         toDoNotes.push(note);
     }
     const removeToDoNote = (note) => toDoNotes.splice(toDoNotes.indexOf(note), 1);
-
-    // const sortToDoNotes
-    return {title, description, toDoNotes, addNote, removeToDoNote}
+    const sortNotesByDate = () => toDoNotes.sort(compareNotesByDate);
+    
+    return {title, description, toDoNotes, addNote, removeToDoNote, sortNotesByDate}
 }
 
 export function updateProject(project) {
@@ -172,8 +165,8 @@ export const noteCreator = (content, dueDate, priority) => {
         noteEditDiv.appendChild(notePriorityEditField);
 
         const saveEditButton = document.createElement("button");
-        saveEditButton.textContent = "Save"
-        saveEditButton.className = "save-note-edit-button"
+        saveEditButton.textContent = "Save";
+        saveEditButton.className = "save-note-edit-button";
         saveEditButton.addEventListener("click", (e) => {
             e.preventDefault();
             editNote(noteText, noteTextEditField.value,
@@ -231,4 +224,13 @@ export const noteCreator = (content, dueDate, priority) => {
     return {getNoteContent, renderNote, renderEditMenu, getDeleteButton, getDueDate}
 }
 
-
+function compareNotesByDate(a,b) {
+    if (!a.getDueDate()) return -1;
+    if (new Date(a.getDueDate()) < new Date(b.getDueDate())) {
+        return -1;
+    } 
+    if (new Date(a.getDueDate()) > new Date(b.getDueDate())) {
+        return 1;
+    } 
+    return 0;
+}

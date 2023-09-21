@@ -24,7 +24,7 @@ export const domManipulator = (() => {
 
 
         const homeHeader = document.createElement("h2");
-        homeHeader.textContent = "Home";
+        homeHeader.textContent = "To-Do:";
 
         const homeDiv = document.createElement("div");
         homeDiv.className = "home-div"
@@ -280,6 +280,7 @@ export const domManipulator = (() => {
     }
 
     function renderToDoNotes(project) {
+        project.sortNotesByDate();
         const toDoNotesDisplay = document.querySelector(".todo-list");
         toDoNotesDisplay.innerHTML = "";
 
@@ -301,13 +302,12 @@ export const domManipulator = (() => {
     function renderTodayTasks() {
         makeNewProjectButtonActive();
         const todayTasks = projectsLibrary.getTodayTasks();
-        console.log(todayTasks)
         const displayDiv = document.querySelector(".display");
         displayDiv.innerHTML = "";
 
         const todoDisplay = document.createElement("div");
         todoDisplay.className = "todo-display";
-        todoDisplay.innerHTML = `<h2>To-do Today, ${(format(new Date(), "do MMM yyyy, EEE"))}:</h2>`
+        todoDisplay.innerHTML = `<h2>${(format(new Date(), "do MMM yyyy, EEE"))}:</h2>`
         
 
         const toDoWrapper = document.createElement("div");
@@ -328,7 +328,7 @@ export const domManipulator = (() => {
 
         const todoDisplay = document.createElement("div");
         todoDisplay.className = "todo-display";
-        todoDisplay.innerHTML = `<h2>To-do this week, Week ${getWeek(new Date())}:</h2>`
+        todoDisplay.innerHTML = `<h2>Week ${getWeek(new Date())}:</h2>`
         
         const toDoWrapper = document.createElement("div");
         toDoWrapper.className = "todo-list";
