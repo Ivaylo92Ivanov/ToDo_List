@@ -1,14 +1,13 @@
 import EditIcon from "./icons/edit-button-icon.svg"
 import DeleteIcon from "./icons/delete-button-icon.svg"
 import ProjectIcon from "./icons/project.svg"
-import { format, getWeek } from 'date-fns'
-
+import { format, getWeek, addDays, subDays} from 'date-fns'
 import { projectsCreator, getProjectFormData, updateProject, noteCreator } from "./to-do";
 
 export const domManipulator = (() => {
     let projectsLibrary;
     const getLibrary = (library) => projectsLibrary = library;
-    
+
     const createPage = () => {
         const body = document.querySelector("body");
 
@@ -88,14 +87,28 @@ export const domManipulator = (() => {
                     e.preventDefault();
                     let currentProject = projectsCreator(getProjectFormData());
                     projectsLibrary.addProject(currentProject);
-                    renderProjectsMenu(projectsLibrary);
+                    renderProjectsMenu();
                     clearDisplay();
                     makeNewProjectButtonActive();
                 });
             };
         });
+        
+        generateSeed();
     };
     
+    function generateSeed() {
+        let seedProject = projectsCreator(["Just a test project", "A test description, for a test project"]);
+        seedProject.addNote(noteCreator("Just a test note", format(new Date(), "yyyy-MM-dd"), "High Priority"));
+        seedProject.addNote(noteCreator("Note for testing puropses", (format(addDays(new Date(), 3), "yyyy-MM-dd")), "High Priority"));
+        seedProject.addNote(noteCreator("Another test? You know it!", format(new Date(), "yyyy-MM-dd"), "High Priority"));
+        seedProject.addNote(noteCreator("Test note fo` sho`", (format(addDays(new Date(), 11), "yyyy-MM-dd")), "High Priority"));
+        seedProject.addNote(noteCreator("You guessed it! Test!", (format(subDays(new Date(),3), "yyyy-MM-dd")), "High Priority"));
+        projectsLibrary.addProject(seedProject);
+        renderProjectsMenu();
+    }
+    
+
     function clearDisplay() {
         const display = document.querySelector('.display');
         display.innerHTML = '\
@@ -315,9 +328,8 @@ export const domManipulator = (() => {
 
         const todoDisplay = document.createElement("div");
         todoDisplay.className = "todo-display";
-        todoDisplay.innerHTML = `<h2>To-do Week ${getWeek(new Date())}:</h2>`
+        todoDisplay.innerHTML = `<h2>To-do this week, Week ${getWeek(new Date())}:</h2>`
         
-
         const toDoWrapper = document.createElement("div");
         toDoWrapper.className = "todo-list";
         thisWeekTasks.forEach(note => toDoWrapper.appendChild(note.renderNote()));

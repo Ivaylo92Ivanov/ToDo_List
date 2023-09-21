@@ -1,4 +1,4 @@
-import { compareDesc, compareAsc, format, isToday, isThisWeek } from 'date-fns';
+import { isToday, isThisWeek, addDays } from 'date-fns';
 
 export const projectsLibraryCreator = () => {
     const library = [];
@@ -10,22 +10,35 @@ export const projectsLibraryCreator = () => {
         library.forEach(project => {
             project.toDoNotes.forEach(note => {
                 if (isToday(new Date(note.getDueDate()))) todayTasks.push(note);
-            })
-        })
+            });
+        });
         return todayTasks
     };
 
     const getWeekTasks = () => {
-        let thisWeekTasks = []
+        let thisWeekTasks = [];
         library.forEach(project => {
             project.toDoNotes.forEach(note => {
                 if (isThisWeek(new Date(note.getDueDate()))) thisWeekTasks.push(note);
-            })
-        })
+            });
+        });
+
+        //sort this week tasks by date
+        function compare(a,b) {
+            if (new Date(a.getDueDate()) < new Date(b.getDueDate())) {
+                return -1;
+            } 
+            if (new Date(a.getDueDate()) > new Date(b.getDueDate())) {
+                return 1;
+            } 
+            return 0;
+        }
+        thisWeekTasks.sort(compare);
+        
         return thisWeekTasks
     };
 
-    return { addProject, removeProject, getLibrary, getTodayTasks, getWeekTasks}
+    return { getLibrary, addProject, removeProject, getTodayTasks, getWeekTasks}
 }
 
 export function getProjectFormData() {
@@ -37,13 +50,7 @@ export function getProjectFormData() {
 export const projectsCreator = (formInput) => {
     let title = formInput[0];
     let description = formInput[1];
-    let toDoNotes = [
-        noteCreator("just a test note", "2023-09-20", "High Priority"),
-        noteCreator("just another test note", "2023-09-20", "High Priority"),
-        noteCreator("aaand just another test", "2023-09-22", "High Priority"),
-        noteCreator("test note for sho", "2023-09-19", "High Priority"),
-        noteCreator("just another test notesss", "2023-09-20", "High Priority"),
-    ];
+    let toDoNotes = [];
     const addNote = (note) => {
         toDoNotes.push(note);
     }

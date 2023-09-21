@@ -271,7 +271,6 @@ textarea {
 
 .add-todo-form {
     display: flex;
-    /* align-items: center; */
     gap: 1rem;
     flex-direction: column;
     border: 2px solid black;
@@ -279,20 +278,13 @@ textarea {
     border-radius: 8px;
 }
 
-
-.todo-list {
-    
-}
-
 .todo-note > div {
     display: flex;
     gap: 0.3rem;
     border-bottom: 1px solid black;
     align-items: center;
-    /* text-align: justify; */
+    
 }
-
-
 
 .note-buttons-wrapper {
     margin: 0.3rem 0;
