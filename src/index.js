@@ -5,4 +5,3 @@ import { domManipulator } from "./dom-manipulation";
 const projectsLibrary = projectsLibraryCreator();
 domManipulator.getLibrary(projectsLibrary);
 domManipulator.createPage();
-

@@ -1,4 +1,5 @@
 import { isToday, isThisWeek } from 'date-fns';
+import { domManipulator } from './dom-manipulation';
 
 export const projectsLibraryCreator = () => {
     const library = [];
@@ -67,17 +68,11 @@ export const noteCreator = (content, dueDate, priority) => {
     let isChecked = false;
     let deleteButton;
 
-    const getNoteContent = () => {
-        return noteContent
-    }
+    const setCheckedStatus = (status) => isChecked = status;
 
-    const getDeleteButton = () => {
-        return deleteButton
-    }
+    const getDeleteButton = () => deleteButton;
 
-    function setDeleteButton(button) {
-        deleteButton = button;
-    }
+    const setDeleteButton = (button) => deleteButton = button;
 
     const renderNote = () => {
         const toDoNoteDiv = document.createElement("div");
@@ -99,7 +94,9 @@ export const noteCreator = (content, dueDate, priority) => {
                 isChecked = true;
                 noteCheckbox.checked = isChecked;
             }
+            domManipulator.storeLibrary();
         });
+
         noteDisplayDiv.appendChild(noteCheckbox);
 
         const noteText = document.createElement("p");
@@ -217,11 +214,21 @@ export const noteCreator = (content, dueDate, priority) => {
         dateHolder.textContent = noteDueDate;
         priorityHolder.textContent = notePriority;
 
+        domManipulator.storeLibrary();
     };
 
+    const getNoteContent = () => noteContent;
     const getDueDate = () => noteDueDate;
+    const getPriority = () => notePriority;
+    const getCheckedStatus = () => isChecked;
 
-    return {getNoteContent, renderNote, renderEditMenu, getDeleteButton, getDueDate}
+
+    return { 
+        renderNote, renderEditMenu, getDeleteButton, 
+        getNoteContent, getDueDate, getPriority, getCheckedStatus,
+        setCheckedStatus
+    }
+
 }
 
 function compareNotesByDate(a,b) {

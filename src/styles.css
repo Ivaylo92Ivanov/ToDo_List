@@ -136,6 +136,7 @@ textarea {
     text-align: left;
     font-weight: 600;
     transition: 0.5s;
+    margin-left: 1rem;
 }
 
 .project-element-title:hover,

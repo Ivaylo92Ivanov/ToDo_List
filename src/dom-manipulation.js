@@ -87,20 +87,22 @@ export const domManipulator = (() => {
                     e.preventDefault();
                     let currentProject = projectsCreator(getProjectFormData());
                     projectsLibrary.addProject(currentProject);
+                    storeLibrary();
                     renderProjectsMenu();
                     clearDisplay();
                     makeNewProjectButtonActive();
                 });
             };
         });
-        
-        generateSeed();
+                
+        localStorage.length > 0 ? renderStoredItems() : generateSeed();
     };
-    
+
+
     function generateSeed() {
         let seedProject = projectsCreator(["Just a test project", "A test description, for a test project"]);
         seedProject.addNote(noteCreator("Just a test note", format(new Date(), "yyyy-MM-dd"), "High Priority"));
-        seedProject.addNote(noteCreator("Note for testing puropses", (format(addDays(new Date(), 3), "yyyy-MM-dd")), "High Priority"));
+        seedProject.addNote(noteCreator("Note for testing purposes", (format(addDays(new Date(), 3), "yyyy-MM-dd")), "High Priority"));
         seedProject.addNote(noteCreator("Another test? You know it!", format(new Date(), "yyyy-MM-dd"), "High Priority"));
         seedProject.addNote(noteCreator("Test note fo` sho`", (format(addDays(new Date(), 11), "yyyy-MM-dd")), "High Priority"));
         seedProject.addNote(noteCreator("You guessed it! Test!", (format(subDays(new Date(),3), "yyyy-MM-dd")), "High Priority"));
@@ -108,6 +110,36 @@ export const domManipulator = (() => {
         renderProjectsMenu();
     }
     
+    function renderStoredItems(){
+        // go over all items in the localStorage
+        for(let i=0; i < localStorage.length; i++) {
+            let project = JSON.parse(localStorage[i]);
+            // project[0] - project title
+            // project[1] - project description
+            // project[2] - array of notes of project - not JSON parsed
+            let title = project[0]
+            let description = project[1]
+            let notes = project[2]
+            let projectObject = projectsCreator([title, description])
+            projectsLibrary.addProject(projectObject);
+            renderProjectsMenu()
+
+            // go over all the notes of the current project
+            if(notes.length > 0) {
+                notes.forEach(note => {
+                    note = JSON.parse(note);
+                    let content = note[0];
+                    let dueDate = note[1];
+                    let priority = note[2];
+                    let isChecked = note[3];
+                    let noteObject = noteCreator(content, dueDate, priority);
+                    noteObject.setCheckedStatus(isChecked);
+                    projectObject.addNote(noteObject);
+                });
+            };
+        };
+    };
+
 
     function clearDisplay() {
         const display = document.querySelector('.display');
@@ -206,8 +238,8 @@ export const domManipulator = (() => {
             e.preventDefault();
             updateProject(project);
             renderProjectInDisplay(project);
-        });
-        
+            storeLibrary();
+        });        
     }
     
      function deleteProject(project) {
@@ -215,6 +247,7 @@ export const domManipulator = (() => {
             projectsLibrary.removeProject(project.id);
             renderProjectsMenu(projectsLibrary);
             clearDisplay();
+            storeLibrary();
         } else {
          return
         }
@@ -266,17 +299,46 @@ export const domManipulator = (() => {
         deleteButton.addEventListener("click", () => deleteProject(project));
     }
 
+    function storeLibrary() {
+        localStorage.clear()
+        let library = projectsLibrary.getLibrary();
+        
+        library.forEach(project => {
+            let projectNotesAsJson = [];
+            for (let note of project.toDoNotes) {
+                let noteJson = [
+                    note.getNoteContent(),
+                    note.getDueDate(),
+                    note.getPriority(),
+                    note.getCheckedStatus()
+                ];
+                projectNotesAsJson.push(JSON.stringify(noteJson))
+            }
+
+            let projectJSON = [
+                project.title, 
+                project.description, 
+                projectNotesAsJson
+            ];
+
+            localStorage.setItem(library.indexOf(project), JSON.stringify(projectJSON))
+        });
+
+        
+    }
+
     function addToDoNote(project) {
         let noteText = document.getElementById("todo-note-input");
         let noteDueDate = document.getElementById("note-due-date");
         let notePriority = document.getElementById("note-priority");
+
         if (noteText.value) project.addNote(noteCreator(noteText.value, noteDueDate.value, notePriority.value));
+    
+        storeLibrary ()
+        
         noteText.value = "";
         noteDueDate.value = "";
-        notePriority.value = "Low Priority";
-
-        
-        
+        notePriority.value = "Low Priority";        
     }
 
     function renderToDoNotes(project) {
@@ -338,7 +400,7 @@ export const domManipulator = (() => {
         displayDiv.appendChild(todoDisplay)
     };
 
-    return {createPage, getLibrary}
+    return {createPage, getLibrary, storeLibrary}
 })()
 
 
