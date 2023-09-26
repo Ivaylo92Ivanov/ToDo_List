@@ -351,14 +351,7 @@ export const domManipulator = (() => {
             toDoNotesDisplay.appendChild(noteObject.renderNote());
             noteDeleteButtons.push(noteObject.getDeleteButton());
         });
-
-        noteDeleteButtons.forEach(button => {
-            let noteObject = project.toDoNotes[noteDeleteButtons.indexOf(button)];
-            button.addEventListener("click", () => {
-                project.removeToDoNote(noteObject);
-                renderToDoNotes(project);
-            });
-        });
+        addListenerToDeleteButtons(noteDeleteButtons, renderToDoNotes)
     };
 
     function renderTodayTasks() {
@@ -371,13 +364,20 @@ export const domManipulator = (() => {
         todoDisplay.className = "todo-display";
         todoDisplay.innerHTML = `<h2>${(format(new Date(), "do MMM yyyy, EEE"))}:</h2>`
         
-
         const toDoWrapper = document.createElement("div");
         toDoWrapper.className = "todo-list";
-        todayTasks.forEach(note => toDoWrapper.appendChild(note.renderNote()));
+
+        let noteDeleteButtons = [];
+        todayTasks.forEach(note => {
+            toDoWrapper.appendChild(note.renderNote());
+            noteDeleteButtons.push(note.getDeleteButton())
+        });
+        addListenerToDeleteButtons(noteDeleteButtons, renderTodayTasks);
 
         todoDisplay.appendChild(toDoWrapper)
         displayDiv.appendChild(todoDisplay)
+
+
     };
 
     function renderWeekTasks() {
@@ -394,11 +394,34 @@ export const domManipulator = (() => {
         
         const toDoWrapper = document.createElement("div");
         toDoWrapper.className = "todo-list";
-        thisWeekTasks.forEach(note => toDoWrapper.appendChild(note.renderNote()));
+
+        let noteDeleteButtons = [];
+        thisWeekTasks.forEach(note => {
+            toDoWrapper.appendChild(note.renderNote());
+            noteDeleteButtons.push(note.getDeleteButton());
+        });
+        addListenerToDeleteButtons(noteDeleteButtons, renderWeekTasks);
 
         todoDisplay.appendChild(toDoWrapper)
         displayDiv.appendChild(todoDisplay)
     };
+
+    function addListenerToDeleteButtons(listOfDeleteButtons, renderFunction) {
+        let library = projectsLibrary.getLibrary();
+        listOfDeleteButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                library.forEach(project => {
+                    project.toDoNotes.forEach(note => {
+                        if(note.getDeleteButton() === button) {
+                            project.removeToDoNote(note);
+                            renderFunction(project);
+                            storeLibrary();
+                        } 
+                    })
+                })
+            })
+        })
+    }
 
     return {createPage, getLibrary, storeLibrary}
 })()

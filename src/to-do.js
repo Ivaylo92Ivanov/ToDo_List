@@ -48,7 +48,9 @@ export const projectsCreator = (formInput) => {
     const addNote = (note) => {
         toDoNotes.push(note);
     }
-    const removeToDoNote = (note) => toDoNotes.splice(toDoNotes.indexOf(note), 1);
+    const removeToDoNote = (note) => {
+        if(toDoNotes.includes(note))toDoNotes.splice(toDoNotes.indexOf(note), 1);
+    }
     const sortNotesByDate = () => toDoNotes.sort(compareNotesByDate);
     
     return {title, description, toDoNotes, addNote, removeToDoNote, sortNotesByDate}
