@@ -362,7 +362,7 @@ export const domManipulator = (() => {
 
         const todoDisplay = document.createElement("div");
         todoDisplay.className = "todo-display";
-        todoDisplay.innerHTML = `<h2>${(format(new Date(), "do MMM yyyy, EEE"))}:</h2>`
+        todoDisplay.innerHTML = `<h2>${(format(new Date(), "do MMM yyyy, EEE"))}:</h2>`;
         
         const toDoWrapper = document.createElement("div");
         toDoWrapper.className = "todo-list";
@@ -370,14 +370,12 @@ export const domManipulator = (() => {
         let noteDeleteButtons = [];
         todayTasks.forEach(note => {
             toDoWrapper.appendChild(note.renderNote());
-            noteDeleteButtons.push(note.getDeleteButton())
+            noteDeleteButtons.push(note.getDeleteButton());
         });
         addListenerToDeleteButtons(noteDeleteButtons, renderTodayTasks);
 
-        todoDisplay.appendChild(toDoWrapper)
-        displayDiv.appendChild(todoDisplay)
-
-
+        todoDisplay.appendChild(toDoWrapper);
+        displayDiv.appendChild(todoDisplay);
     };
 
     function renderWeekTasks() {
